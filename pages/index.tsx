@@ -12,7 +12,10 @@ export default function Home() {
   return (
     <Template title="GitHub Search">
       <div>
-        GitHubのユーザー名を入力してSubmitボタンを押すと、そのユーザーの説明ページにリンクします。
+        <h2>機能</h2>
+        <p>
+          GitHubのユーザー名を入力してSubmitボタンを押すと、そのユーザーの説明ページにリンクします。
+        </p>
       </div>
       <form>
         <label>

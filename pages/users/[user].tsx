@@ -1,8 +1,9 @@
 import { FC } from 'react';
 import Template from '../../components/template';
-import getUserInfo, { User } from '../../lib/userInfo';
-import getReposInfo, { Repository } from '../../lib/reposInfo';
+import getUserInfo, { User } from '../../lib/github/userInfo';
+import getReposInfo, { Repository } from '../../lib/github/reposInfo';
 import { GetServerSideProps } from 'next';
+import Link from 'next/link';
 
 type Props = User & {
   repositories: Repository[];
@@ -49,21 +50,32 @@ const Page: FC<Props> = ({
   email,
   location,
   twitter_username,
+  avatar_url,
   repositories,
 }) => {
   return (
     <Template title={`${login}'s Page`}>
       <p>name:{name}</p>
-      <p>followers:{followers}</p>
-      <p>following:{following}</p>
-      <p>email:{email}</p>
-      <p>location:{location}</p>
-      <p>twitter_username:{twitter_username}</p>
-      <ul>
+      {avatar_url && <img src={avatar_url}></img>}
+      <div className="flex">
+        <p>followers:{followers}</p>
+        <p>following:{following}</p>
+      </div>
+      <p>email:{email ?? '???'}</p>
+      <p>location:{location ?? '???'}</p>
+      <p>twitter_username:{twitter_username ?? '???'}</p>
+      <p>repositories:</p>
+      <ul className="grid grid-cols-2">
         {repositories.map((repos) => {
-          const { id, full_name } = repos;
+          const { id, full_name, html_url } = repos;
 
-          return <li key={id}>{repos.name}</li>;
+          return (
+            <li key={id}>
+              <Link href={html_url}>
+                <a>{full_name}</a>
+              </Link>
+            </li>
+          );
         })}
       </ul>
     </Template>
