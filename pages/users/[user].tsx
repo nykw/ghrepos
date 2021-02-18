@@ -61,7 +61,7 @@ const Page: FC<Props> = ({
       <p>twitter_username:{twitter_username}</p>
       <ul>
         {repositories.map((repos) => {
-          const { id } = repos;
+          const { id, full_name } = repos;
 
           return <li key={id}>{repos.name}</li>;
         })}
