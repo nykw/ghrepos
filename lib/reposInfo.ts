@@ -1,3 +1,4 @@
+// https://api.github.com/users/USER_NAME/repos APIの正常系のときにこの型の配列が返される。
 export type Repository = {
   id: number;
   node_id: string;
@@ -32,6 +33,9 @@ type Result =
       message: string;
     };
 
+// 該当ユーザーが存在しないとき
+//   {"message":"Not Found", ...}
+// のようなレスポンスがある。
 const isRepositories = (data: Result): data is Repository[] => !('message' in data);
 
 export default async function getReposInfo(login: string) {

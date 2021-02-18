@@ -1,3 +1,4 @@
+// https://api.github.com/users/USER_NAME APIの正常系の型
 export type User = {
   avatar_url: string | undefined;
   bio: string | undefined;
@@ -39,6 +40,9 @@ type Result =
       message: string;
     };
 
+// 該当ユーザーが存在しないとき
+//   {"message":"Not Found", ...}
+// のようなレスポンスがある。
 const isUser = (data: Result): data is User => !('message' in data);
 
 export default async function getUserInfo(user: string | string[]) {
