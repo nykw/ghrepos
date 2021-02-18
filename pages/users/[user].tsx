@@ -4,14 +4,7 @@ import getUserInfo, { User } from '../../lib/userInfo';
 import getReposInfo, { Repository } from '../../lib/reposInfo';
 import { GetServerSideProps } from 'next';
 
-type Props = {
-  login: string;
-  name: string;
-  followers: number;
-  following: number;
-  email: string | undefined;
-  location: string | undefined;
-  twitter_username: string | undefined;
+type Props = User & {
   repositories: Repository[];
 };
 
@@ -22,14 +15,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const { user } = params;
     if (!user) throw new Error('`user` is undefined.');
 
-    const data = await getUserInfo(user);
+    const userInfo = await getUserInfo(user);
 
-    const { login } = data;
+    const { login } = userInfo;
     const repositories = await getReposInfo(login);
 
     return {
       props: {
-        ...data,
+        ...userInfo,
         repositories,
       },
     };
@@ -37,9 +30,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     if (e instanceof Error) {
       console.error(e.message);
     }
-
     return {
-      notFound: true,
+      props: {},
     };
   }
 };
@@ -64,9 +56,9 @@ const Page: FC<Props> = ({
       <p>twitter_username:{twitter_username}</p>
       <ul>
         {repositories.map((repos) => {
-          const {} = repos;
+          const { id } = repos;
 
-          return <li>{repos.name}</li>;
+          return <li key={id}>{repos.name}</li>;
         })}
       </ul>
     </Template>

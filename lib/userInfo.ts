@@ -33,13 +33,21 @@ export type User = {
   url: string | undefined;
 };
 
+type Result =
+  | User
+  | {
+      message: string;
+    };
+
+const isUser = (data: Result): data is User => !('message' in data);
+
 export default async function getUserInfo(user: string | string[]) {
   if (typeof user === 'object') throw new Error('不正なユーザー名です。');
 
   const res = await fetch(`https://api.github.com/users/${user}`);
-  const data: User | undefined = await res.json();
+  const data: Result = await res.json();
 
-  if (!data) throw new Error('存在しないユーザーです。');
+  if (!isUser(data)) throw new Error('存在しないユーザーです。');
 
   return data;
 }
