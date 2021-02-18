@@ -19,7 +19,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     // GitHub からユーザー名 `user` の情報を取得する
     const userInfo = await getUserInfo(user);
 
-    // GitHubからユーザー名 `user` の情報リポジトリ名を取得する
+    // GitHubからユーザー名 `user` のリポジトリ名を取得する
     const { login } = userInfo;
     const repositories = await getReposInfo(login);
 
@@ -67,12 +67,12 @@ const Page: FC<Props> = ({
       <p>repositories:</p>
       <ul className="grid grid-cols-2">
         {repositories.map((repos) => {
-          const { id, full_name, html_url } = repos;
+          const { id, full_name, name } = repos;
 
           return (
             <li key={id}>
-              <Link href={html_url}>
-                <a>{full_name}</a>
+              <Link href={`/users/${full_name}`}>
+                <a>{name}</a>
               </Link>
             </li>
           );
