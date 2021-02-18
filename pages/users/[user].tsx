@@ -1,42 +1,61 @@
 import { FC } from 'react';
 import Template from '../../components/template';
-import useUser, { User } from '../../hooks/useUser';
+import getUserInfo, { User } from '../../lib/userInfo';
+import getReposInfo, { Repository } from '../../lib/reposInfo';
 import { GetServerSideProps } from 'next';
 
-type Props = User & {
+type Props = {
   name: string;
   followers: number;
   following: number;
   email: string | undefined;
   location: string | undefined;
   twitter_username: string | undefined;
+  repos: Repository[];
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { params } = context;
-  if (!params)
+  try {
+    const { params } = context;
+    if (!params) throw new Error('`params` is undefined.');
+
+    const { user } = params;
+    if (!user) throw new Error('`user` is undefined.');
+
+    const data = await getUserInfo(user as string);
+    if (!data) throw new Error('`data` is undefined.');
+
+    const { login } = data;
+
+    const repos = await getReposInfo(login);
+    if (!repos) throw new Error('`repos` is undefined.');
+
+    return {
+      props: {
+        ...data,
+        repos,
+      },
+    };
+  } catch (e) {
+    if (e instanceof Error) {
+      console.error(e.message);
+    }
+
     return {
       notFound: true,
     };
-
-  const { user } = params;
-  if (!user)
-    return {
-      notFound: true,
-    };
-
-  const data = await useUser(user as string);
-  if (!data)
-    return {
-      notFound: true,
-    };
-
-  return {
-    props: data,
-  };
+  }
 };
 
-const Page: FC<Props> = ({ name, followers, following, email, location, twitter_username }) => {
+const Page: FC<Props> = ({
+  name,
+  followers,
+  following,
+  email,
+  location,
+  twitter_username,
+  repos,
+}) => {
   return (
     <Template title={`${name}'s Page`}>
       <p>name:{name}</p>
@@ -45,6 +64,11 @@ const Page: FC<Props> = ({ name, followers, following, email, location, twitter_
       <p>email:{email}</p>
       <p>location:{location}</p>
       <p>twitter_username:{twitter_username}</p>
+      <ul>
+        {repos.map((repos) => (
+          <li>{repos.name}</li>
+        ))}
+      </ul>
     </Template>
   );
 };

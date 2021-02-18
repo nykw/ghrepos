@@ -6,17 +6,17 @@ export type User = {
   created_at: string | undefined;
   email: string | undefined;
   events_url: string | undefined;
-  followers: number | undefined;
+  followers: number;
   followers_url: string | undefined;
-  following: number | undefined;
+  following: number;
   following_url: string | undefined;
   gists_url: string | undefined;
   gravatar_id: string | undefined;
   hireable: boolean | undefined;
   html_url: string | undefined;
-  id: number | undefined;
+  id: number;
   location: string | undefined;
-  login: string | undefined;
+  login: string;
   name: string | undefined;
   node_id: string | undefined;
   organizations_url: string | undefined;
@@ -33,7 +33,7 @@ export type User = {
   url: string | undefined;
 };
 
-export default async function useUser(user: string) {
+export default async function getUserInfo(user: string) {
   const res = await fetch(`https://api.github.com/users/${user}`);
   const data: User | undefined = await res.json();
 
