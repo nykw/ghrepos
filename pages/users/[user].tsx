@@ -15,8 +15,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const { user } = params;
     if (!user) throw new Error('`user` is undefined.');
 
+    // GitHub からユーザー名 `user` の情報を取得する
     const userInfo = await getUserInfo(user);
 
+    // GitHubからユーザー名 `user` の情報リポジトリ名を取得する
     const { login } = userInfo;
     const repositories = await getReposInfo(login);
 
@@ -32,6 +34,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
     return {
       props: {},
+      redirect: {
+        destination: '/',
+      },
     };
   }
 };
