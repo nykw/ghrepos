@@ -33,9 +33,13 @@ export type User = {
   url: string | undefined;
 };
 
-export default async function getUserInfo(user: string) {
+export default async function getUserInfo(user: string | string[]) {
+  if (typeof user === 'object') throw new Error('不正なユーザー名です。');
+
   const res = await fetch(`https://api.github.com/users/${user}`);
   const data: User | undefined = await res.json();
+
+  if (!data) throw new Error('存在しないユーザーです。');
 
   return data;
 }

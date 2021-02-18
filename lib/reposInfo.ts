@@ -29,5 +29,8 @@ export type Repository = {
 export default async function getReposInfo(login: string) {
   const res = await fetch(`https://api.github.com/users/${login}/repos`);
   const data: Repository[] | undefined = await res.json();
+
+  if (!data) throw new Error('Repositoryの情報が存在しません。');
+
   return data;
 }

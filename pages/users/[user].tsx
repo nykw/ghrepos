@@ -5,35 +5,32 @@ import getReposInfo, { Repository } from '../../lib/reposInfo';
 import { GetServerSideProps } from 'next';
 
 type Props = {
+  login: string;
   name: string;
   followers: number;
   following: number;
   email: string | undefined;
   location: string | undefined;
   twitter_username: string | undefined;
-  repos: Repository[];
+  repositories: Repository[];
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const { params } = context;
     if (!params) throw new Error('`params` is undefined.');
-
     const { user } = params;
     if (!user) throw new Error('`user` is undefined.');
 
-    const data = await getUserInfo(user as string);
-    if (!data) throw new Error('`data` is undefined.');
+    const data = await getUserInfo(user);
 
     const { login } = data;
-
-    const repos = await getReposInfo(login);
-    if (!repos) throw new Error('`repos` is undefined.');
+    const repositories = await getReposInfo(login);
 
     return {
       props: {
         ...data,
-        repos,
+        repositories,
       },
     };
   } catch (e) {
@@ -48,16 +45,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 const Page: FC<Props> = ({
+  login,
   name,
   followers,
   following,
   email,
   location,
   twitter_username,
-  repos,
+  repositories,
 }) => {
   return (
-    <Template title={`${name}'s Page`}>
+    <Template title={`${login}'s Page`}>
       <p>name:{name}</p>
       <p>followers:{followers}</p>
       <p>following:{following}</p>
@@ -65,9 +63,11 @@ const Page: FC<Props> = ({
       <p>location:{location}</p>
       <p>twitter_username:{twitter_username}</p>
       <ul>
-        {repos.map((repos) => (
-          <li>{repos.name}</li>
-        ))}
+        {repositories.map((repos) => {
+          const {} = repos;
+
+          return <li>{repos.name}</li>;
+        })}
       </ul>
     </Template>
   );
