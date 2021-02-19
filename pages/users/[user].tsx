@@ -32,11 +32,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       },
     };
   } catch (e) {
-    if (
-      e instanceof InvalidUserNameError ||
-      e instanceof NoUserNameError ||
-      e instanceof NoReposDataError
-    ) {
+    if (e instanceof Error) {
       console.error(e.message);
     }
     return {

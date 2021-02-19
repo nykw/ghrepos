@@ -3,10 +3,11 @@
  */
 
 /** ユーザー名 login のリポジトリ情報が存在しなかったときに発生する例外 */
-export class NoReposDataError implements Error {
+export class NoReposDataError extends Error {
   name = `No repository data.`;
   message: string;
   constructor(login: string) {
+    super();
     this.message = `ユーザー名 ${login} のリポジトリ情報が存在しません。`;
   }
 }
