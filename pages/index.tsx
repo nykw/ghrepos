@@ -1,6 +1,6 @@
 import Template from '../components/template';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 /** 入力したユーザー名のバリデーション */
 const validateUserName = (inputUserName: string): boolean =>
@@ -8,10 +8,15 @@ const validateUserName = (inputUserName: string): boolean =>
 
 export default function Index() {
   const [user, setUser] = useState('');
+  const [validUserName, setValidUserName] = useState(validateUserName(user)); // 入力されたユーザー名が正しい形式かどうかのフラグ
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUser(e.target.value);
   };
+
+  useEffect(() => {
+    setValidUserName((_) => validateUserName(user));
+  }, [user]);
 
   return (
     <Template pageName="GitHub Search">
@@ -31,12 +36,12 @@ export default function Index() {
             <button
               type="submit"
               className="h-10 w-20 rounded-md bg-blue-600"
-              disabled={!validateUserName(user)}
+              disabled={!validUserName}
             >
               <span className="font-bold text-white">Submit</span>
             </button>
           </Link>
-          {!validateUserName(user) && (
+          {!validUserName && (
             <p>
               <span className="font-bold text-red-500">不正なユーザー名です。</span>
             </p>
