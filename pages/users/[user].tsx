@@ -1,9 +1,7 @@
 import { FC } from 'react';
 import Template from '../../components/template';
 import getUserInfo, { User } from '../../lib/github/userInfo';
-import { InvalidUserNameError, NoUserNameError } from '../../lib/github/errors/userInfo';
 import getReposInfo, { Repository } from '../../lib/github/reposInfo';
-import { NoReposDataError } from '../../lib/github/errors/reposInfo';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 
