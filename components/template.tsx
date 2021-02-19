@@ -2,21 +2,24 @@ import { FC } from 'react';
 import Head from 'next/head';
 
 type Props = {
-  title: string;
+  pageName: string;
 };
 
-const Template: FC<Props> = ({ title, children }) => (
+/** サイト名 */
+export const siteName = 'GitHub Search';
+
+const Template: FC<Props> = ({ pageName, children }) => (
   <>
     <Head>
-      <title>{title}</title>
+      <title>{pageName}</title>
       <link rel="icon" href="/person.svg" />
     </Head>
 
-    <header>
-      <h1>{title}</h1>
+    <header className="h-20 bg-gray-100">
+      <h1 className="font-bold font-mono text-4xl box-content object-center">{siteName}</h1>
     </header>
     <main>{children}</main>
-    <footer></footer>
+    <footer className="h-20 bg-gray-100"></footer>
   </>
 );
 

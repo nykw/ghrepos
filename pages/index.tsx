@@ -6,34 +6,51 @@ import { useState } from 'react';
 const validateUserName = (inputUserName: string): boolean =>
   inputUserName.length > 0 && inputUserName.split('/').length === 1;
 
-export default function Home() {
+export default function Index() {
   const [user, setUser] = useState('');
-  const [disabled, setDisabled] = useState(true); // submitボタン押下の可不可
+  const [submitDisabled, setSubmitDisabled] = useState(true); // submitボタン押下の可不可
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputUserName = e.target.value;
     setUser(inputUserName);
-    setDisabled(!validateUserName(inputUserName));
+    setSubmitDisabled(!validateUserName(inputUserName));
   };
 
   return (
-    <Template title="GitHub Search">
-      <form>
-        <label>
-          ユーザー名:
-          <input type="text" name="user" onChange={handleChange} value={user} />
-        </label>
-        <Link href={`/users/${user}`}>
-          <button type="submit" disabled={disabled}>
-            Submit
-          </button>
-        </Link>
-      </form>
-      <div>
-        <h2>機能</h2>
-        <p>
-          GitHubのユーザー名を入力してSubmitボタンを押すと、そのユーザーの説明ページにリンクします。
-        </p>
+    <Template pageName="GitHub Search">
+      <div className="my-5">
+        <form>
+          <label>
+            ユーザー名:
+            <input
+              type="text"
+              name="user"
+              onChange={handleChange}
+              value={user}
+              className="bg-gray-50"
+            />
+          </label>
+          <Link href={`/users/${user}`}>
+            <button
+              type="submit"
+              className="h-10 w-20 rounded-md bg-blue-600"
+              disabled={submitDisabled}
+            >
+              <span className="font-bold text-white">Submit</span>
+            </button>
+          </Link>
+          {!validateUserName(user) && (
+            <p>
+              <span className="font-bold text-red-500">不正なユーザー名です。</span>
+            </p>
+          )}
+        </form>
+        <div>
+          <h2>機能</h2>
+          <p>
+            GitHubのユーザー名を入力してSubmitボタンを押すと、そのユーザーの説明ページにリンクします。
+          </p>
+        </div>
       </div>
     </Template>
   );
