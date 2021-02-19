@@ -1,4 +1,10 @@
-// GET /users/{username}/repos APIの正常系のときにこの型の配列が返される。
+/**
+ * GET /users/{username}/repos API に対する処理
+ */
+
+import { NoReposDataError } from './errors/reposInfo';
+
+/** GET /users/{username}/repos APIの正常系のときにこの型の配列が返される。 */
 export type Repository = {
   id: number;
   node_id: string;
@@ -94,6 +100,7 @@ export type Repository = {
   default_branch: string;
 };
 
+// fetchした結果の型
 type Result =
   | Repository[]
   | {
@@ -105,11 +112,12 @@ type Result =
 // のようなレスポンスがある。
 const isRepositories = (data: Result): data is Repository[] => !('message' in data);
 
+/** ユーザー名 login のリポジトリ情報が返される */
 export default async function getReposInfo(login: string) {
   const res = await fetch(`https://api.github.com/users/${login}/repos`);
   const data: Result = await res.json();
 
-  if (!isRepositories(data)) throw new Error('Repositoryの情報が存在しません。');
+  if (!isRepositories(data)) throw new NoReposDataError(login);
 
   return data;
 }

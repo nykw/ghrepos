@@ -11,12 +11,6 @@ export default function Home() {
 
   return (
     <Template title="GitHub Search">
-      <div>
-        <h2>機能</h2>
-        <p>
-          GitHubのユーザー名を入力してSubmitボタンを押すと、そのユーザーの説明ページにリンクします。
-        </p>
-      </div>
       <form>
         <label>
           ユーザー名:
@@ -26,6 +20,12 @@ export default function Home() {
           <button type="submit">Submit</button>
         </Link>
       </form>
+      <div>
+        <h2>機能</h2>
+        <p>
+          GitHubのユーザー名を入力してSubmitボタンを押すと、そのユーザーの説明ページにリンクします。
+        </p>
+      </div>
     </Template>
   );
 }

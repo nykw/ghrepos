@@ -1,4 +1,6 @@
-// GET /users/{username} APIの正常系の型
+import { InvalidUserNameError, NoUserNameError } from './errors/userInfo';
+
+/** GET /users/{username} APIの正常系の型 */
 export type User = {
   avatar_url: string;
   bio: string | undefined;
@@ -34,6 +36,7 @@ export type User = {
   url: string | undefined;
 };
 
+// fetchした結果の型
 type Result =
   | User
   | {
@@ -45,13 +48,14 @@ type Result =
 // のようなレスポンスがある。
 const isUser = (data: Result): data is User => !('message' in data);
 
+/** ユーザー名に対するユーザー情報が返却される。 */
 export default async function getUserInfo(user: string | string[]) {
-  if (typeof user === 'object') throw new Error('不正なユーザー名です。');
+  if (typeof user === 'object') throw new InvalidUserNameError(user);
 
   const res = await fetch(`https://api.github.com/users/${user}`);
   const data: Result = await res.json();
 
-  if (!isUser(data)) throw new Error('存在しないユーザーです。');
+  if (!isUser(data)) throw new NoUserNameError(user);
 
   return data;
 }
