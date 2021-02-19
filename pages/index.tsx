@@ -8,12 +8,9 @@ const validateUserName = (inputUserName: string): boolean =>
 
 export default function Index() {
   const [user, setUser] = useState('');
-  const [submitDisabled, setSubmitDisabled] = useState(true); // submitボタン押下の可不可
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputUserName = e.target.value;
-    setUser(inputUserName);
-    setSubmitDisabled(!validateUserName(inputUserName));
+    setUser(e.target.value);
   };
 
   return (
@@ -34,7 +31,7 @@ export default function Index() {
             <button
               type="submit"
               className="h-10 w-20 rounded-md bg-blue-600"
-              disabled={submitDisabled}
+              disabled={!validateUserName(user)}
             >
               <span className="font-bold text-white">Submit</span>
             </button>
