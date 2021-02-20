@@ -2,7 +2,7 @@
 
 ## 概要
 
-## デプロイ先
+## デモ
 
 [https://ghsearch.nykw.vercel.app/](https://ghsearch.nykw.vercel.app/)
 
