@@ -52,6 +52,7 @@ export default function Index() {
             </button>
           </Link>
         </form>
+
         <div>
           <h2>機能</h2>
           <div className="w-300">
