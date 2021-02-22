@@ -22,7 +22,12 @@ export const loginWithGitHub = async (): Promise<User> => {
     firebase.initializeApp(firebaseConfig);
   }
 
-  const provider = new firebase.auth.GoogleAuthProvider();
+  // see https://firebase.google.com/docs/auth/web/github-auth?hl=ja#handle_the_sign-in_flow_with_the_firebase_sdk
+  const provider = new firebase.auth.GithubAuthProvider();
+  provider.addScope('repo');
+  provider.setCustomParameters({
+    allow_signup: 'true',
+  });
 
   try {
     const credential = await firebase.auth().signInWithPopup(provider);

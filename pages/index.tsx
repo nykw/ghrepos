@@ -10,7 +10,7 @@ export default function Index() {
     try {
       const user = await loginWithGitHub();
       console.log(user);
-      router.push('/search');
+      router.push(`/users/${user.displayName}`);
     } catch (e) {
       if (e instanceof Error) {
         alert(e.message);
