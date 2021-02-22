@@ -1,7 +1,9 @@
-import Template from '../components/template';
+import Template from '../components/molcules/template';
 import login from '../lib/github/login';
 import { SyntheticEvent } from 'react';
 import { useRouter } from 'next/router';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import firebase from 'firebase';
 
 export default function Index() {
   const router = useRouter();
@@ -23,6 +25,12 @@ export default function Index() {
     }
   };
 
+  const uiConfig = {
+    signInFlow: 'popup',
+    signInSuccessUrl: '/search',
+    signInOptions: [firebase.auth.GithubAuthProvider.PROVIDER_ID],
+  };
+
   return (
     <Template pageName="GitHub Search">
       <button
@@ -31,6 +39,7 @@ export default function Index() {
       >
         ログイン
       </button>
+      <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}></StyledFirebaseAuth>
     </Template>
   );
 }
