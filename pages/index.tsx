@@ -1,21 +1,15 @@
 import Template from '../components/molcules/template';
-import login from '../lib/github/login';
+import { loginWithGoogle } from '../lib/github/login';
 import { SyntheticEvent } from 'react';
 import { useRouter } from 'next/router';
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import firebase from 'firebase';
 
 export default function Index() {
   const router = useRouter();
 
   const handleClick = async (e: SyntheticEvent<HTMLButtonElement>) => {
     try {
-      const user = await login();
-
+      const user = await loginWithGoogle();
       console.log(user);
-      console.log(user.email);
-      console.log(user.displayName);
-
       router.push('/search');
     } catch (e) {
       if (e instanceof Error) {
@@ -23,12 +17,6 @@ export default function Index() {
       }
       router.push('/');
     }
-  };
-
-  const uiConfig = {
-    signInFlow: 'popup',
-    signInSuccessUrl: '/search',
-    signInOptions: [firebase.auth.GithubAuthProvider.PROVIDER_ID],
   };
 
   return (
@@ -39,7 +27,6 @@ export default function Index() {
       >
         ログイン
       </button>
-      <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}></StyledFirebaseAuth>
     </Template>
   );
 }
