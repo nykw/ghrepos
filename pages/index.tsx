@@ -1,5 +1,5 @@
 import Template from '../components/molcules/template';
-import { loginWithGoogle } from '../lib/github/login';
+import { loginWithGitHub } from '../lib/github/login';
 import { SyntheticEvent } from 'react';
 import { useRouter } from 'next/router';
 
@@ -8,7 +8,7 @@ export default function Index() {
 
   const handleClick = async (e: SyntheticEvent<HTMLButtonElement>) => {
     try {
-      const user = await loginWithGoogle();
+      const user = await loginWithGitHub();
       console.log(user);
       router.push('/search');
     } catch (e) {

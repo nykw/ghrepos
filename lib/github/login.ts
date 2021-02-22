@@ -1,26 +1,6 @@
 import firebase from 'firebase';
 import 'firebase/auth';
 
-// const login = async (): Promise<firebase.User> => {
-//   // GitHub プロバイダ オブジェクトのインスタンスを作成します。
-//   const provider = new firebase.auth.GithubAuthProvider();
-
-//   try {
-//     const credential = await firebase.auth().signInWithPopup(provider);
-
-//     const user = credential.user;
-
-//     if (!user) throw new Error('user not found');
-
-//     return user;
-//   } catch (e) {
-//     if (e instanceof Error) {
-//       console.error(e.message);
-//     }
-//     throw e;
-//   }
-// };
-
 const firebaseConfig = {
   apiKey: process.env.API_KEY,
   authDomain: process.env.AUTH_DOMAIN,
@@ -36,7 +16,7 @@ type User = {
   email?: string;
 };
 
-export const loginWithGoogle = async (): Promise<User> => {
+export const loginWithGitHub = async (): Promise<User> => {
   if (firebase.apps.length === 0) {
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
