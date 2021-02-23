@@ -16,7 +16,7 @@ type User = {
   email?: string;
 };
 
-export const loginWithGitHub = async (): Promise<User> => {
+export const signInWithGitHub = async (): Promise<User> => {
   if (firebase.apps.length === 0) {
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
@@ -26,8 +26,11 @@ export const loginWithGitHub = async (): Promise<User> => {
   const provider = new firebase.auth.GithubAuthProvider();
   provider.addScope('repo');
   provider.setCustomParameters({
-    allow_signup: 'true',
+    allow_signup: 'false',
   });
+
+  // // GitHub認証が何故か使えないので、一時的にGoogle認証で代用しています。
+  // const provider = new firebase.auth.GoogleAuthProvider();
 
   try {
     const credential = await firebase.auth().signInWithPopup(provider);
@@ -36,9 +39,7 @@ export const loginWithGitHub = async (): Promise<User> => {
 
     if (!user) throw new Error('User not found');
 
-    const { displayName, email } = user;
-
-    return { displayName, email } as User;
+    return user as User;
   } catch (e) {
     if (e instanceof Error) {
       console.log(e.message);
