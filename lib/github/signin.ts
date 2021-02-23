@@ -26,7 +26,7 @@ export const signInWithGitHub = async (): Promise<User> => {
   const provider = new firebase.auth.GithubAuthProvider();
   provider.addScope('repo');
   provider.setCustomParameters({
-    allow_signup: 'false',
+    client_id: process.env.CLIENT_ID,
   });
 
   // // GitHub認証が何故か使えないので、一時的にGoogle認証で代用しています。
