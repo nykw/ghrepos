@@ -73,6 +73,8 @@ export const signInWithGitHub = async (): Promise<Result> => {
         throw new Error();
       case 'auth/invalid-verification-id':
         throw new Error();
+      case 'auth/unauthorized-domain':
+        throw new Error('このドメインは承認済みドメインではありません。');
       default:
         throw new Error('予期しないエラーです。');
     }
