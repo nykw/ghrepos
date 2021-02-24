@@ -27,6 +27,7 @@ type Result = {
   credential: Credential;
 };
 
+/** GitHubアカウントを使ったログインを行います。 */
 export const signInWithGitHub = async (): Promise<Result> => {
   if (firebase.apps.length === 0) {
     // Initialize Firebase
@@ -35,7 +36,7 @@ export const signInWithGitHub = async (): Promise<Result> => {
 
   // see https://firebase.google.com/docs/auth/web/github-auth?hl=ja#handle_the_sign-in_flow_with_the_firebase_sdk
   const provider = new firebase.auth.GithubAuthProvider();
-  provider.addScope('repo');
+  provider.addScope('user:read');
   provider.setCustomParameters({
     client_id: process.env.CLIENT_ID,
   });
@@ -73,6 +74,8 @@ export const signInWithGitHub = async (): Promise<Result> => {
         throw new Error();
       case 'auth/invalid-verification-id':
         throw new Error();
+      case 'auth/unauthorized-domain':
+        throw new Error('このドメインは承認済みドメインではありません。');
       default:
         throw new Error('予期しないエラーです。');
     }

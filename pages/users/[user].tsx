@@ -83,8 +83,8 @@ const Page: FC<Props> = ({
 
               return (
                 <li key={id}>
-                  <Link href={`/users/${full_name}`}>
-                    <a className="hover:underline text-blue-700">{name}</a>
+                  <Link href={`https://github.com/${full_name}`}>
+                    <a className="hover:underline text-blue-700 visited:text-purple-600">{name}</a>
                   </Link>
                 </li>
               );

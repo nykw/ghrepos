@@ -4,7 +4,7 @@
 
 ## デモ
 
-[https://ghsearch.nykw.vercel.app/](https://ghsearch.nykw.vercel.app/)
+[https://ghsearch.vercel.app/](https://ghsearch.vercel.app/)
 
 ## 開発環境
 
