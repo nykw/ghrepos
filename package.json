@@ -13,9 +13,7 @@
     "next": "10.0.7",
     "nookies": "^2.5.2",
     "react": "17.0.1",
-    "react-dom": "17.0.1",
-    "react-firebaseui": "^4.1.0",
-    "swr": "^0.4.2"
+    "react-dom": "17.0.1"
   },
   "devDependencies": {
     "@types/node": "^14.14.28",
