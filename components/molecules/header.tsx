@@ -20,8 +20,6 @@ const Header: FC<Props> = ({ siteName }) => {
       // Firebase Authを使ってGitHub認証を使ったログインを行い、ログインしたユーザー情報を取得する
       const { user, credential } = await signInWithGitHub();
 
-      console.log(user);
-      console.log(credential);
       setDisplayName(user.displayName);
       setAccessToken(credential.accessToken);
 

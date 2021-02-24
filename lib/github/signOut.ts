@@ -8,7 +8,7 @@ export const signOut = async () => {
     }
   } catch (e) {
     if (e instanceof Error) {
-      console.log(e.message);
+      console.error(e.message);
     }
     throw e;
   }
