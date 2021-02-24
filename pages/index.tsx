@@ -1,4 +1,4 @@
-import Template from '../components/molcules/template';
+import Template from '../components/molecules/template';
 import { SyntheticEvent, useState } from 'react';
 import { useRouter } from 'next/router';
 import { parseCookies, setCookie } from 'nookies';

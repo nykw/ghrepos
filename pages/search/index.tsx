@@ -1,4 +1,4 @@
-import Template from '../../components/molcules/template';
+import Template from '../../components/molecules/template';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
