@@ -1,5 +1,7 @@
 import { FC } from 'react';
 import Head from 'next/head';
+import Header from './header';
+import Footer from './footer';
 
 type Props = {
   pageName: string;
@@ -14,12 +16,9 @@ const Template: FC<Props> = ({ pageName, children }) => (
       <title>{pageName}</title>
       <link rel="icon" href="/person.svg" />
     </Head>
-
-    <header className="h-20 bg-gray-100">
-      <h1 className="font-bold font-mono text-4xl box-content object-center">{siteName}</h1>
-    </header>
+    <Header siteName={siteName} />
     <main>{children}</main>
-    <footer className="h-20 bg-gray-100"></footer>
+    <Footer />
   </>
 );
 
