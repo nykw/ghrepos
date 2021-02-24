@@ -36,7 +36,6 @@ export const signInWithGitHub = async (): Promise<Result> => {
 
   // see https://firebase.google.com/docs/auth/web/github-auth?hl=ja#handle_the_sign-in_flow_with_the_firebase_sdk
   const provider = new firebase.auth.GithubAuthProvider();
-  provider.addScope('user:read');
   provider.setCustomParameters({
     client_id: process.env.CLIENT_ID,
   });
