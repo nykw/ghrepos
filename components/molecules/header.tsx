@@ -3,16 +3,19 @@ import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { signInWithGitHub } from '../../lib/github/signin';
 import Link from 'next/link';
 import getUserInfo from '../../lib/github/userInfo';
-import { signOut } from '../../lib/github/signOut';
+import { useDispatch, useSelector } from 'react-redux';
+import { cookieSlice, CookieState } from '../../features/cookie';
 
 type Props = {
   siteName: string;
 };
 
 const Header: FC<Props> = ({ siteName }) => {
-  const [displayName, setDisplayName] = useState<string | undefined>(parseCookies().displayName);
-  const [accessToken, setAccessToken] = useState<string | undefined>(parseCookies().accessToken);
-  const [avatarUrl, setAvatarUrl] = useState<string | undefined>();
+  const { displayName, accessToken, avatarUrl } = useSelector<CookieState, CookieState>(
+    (state) => state,
+  );
+  const dispatch = useDispatch();
+  const { signIn, signOut } = cookieSlice.actions;
 
   // Sign Inボタンがクリックされたときの処理
   const signInHander = async (e: SyntheticEvent<HTMLButtonElement>) => {
@@ -20,12 +23,16 @@ const Header: FC<Props> = ({ siteName }) => {
       // Firebase Authを使ってGitHub認証を使ったログインを行い、ログインしたユーザー情報を取得する
       const { user, credential } = await signInWithGitHub();
 
-      setDisplayName(user.displayName);
-      setAccessToken(credential.accessToken);
-
       // GitHubからユーザー情報を取得する
       const userInfo = await getUserInfo(displayName!);
-      setAvatarUrl(userInfo.avatar_url);
+
+      dispatch(
+        signIn({
+          displayName: user.displayName,
+          accessToken: credential.accessToken,
+          avatarUrl: userInfo.avatar_url,
+        }),
+      );
     } catch (e) {
       if (e instanceof Error) {
         alert(e.message);
@@ -36,34 +43,8 @@ const Header: FC<Props> = ({ siteName }) => {
   // Sign Outボタンがクリックされたときの処理
   const signOutHandler = async (e: SyntheticEvent<HTMLButtonElement>) => {
     await signOut();
-    setDisplayName(undefined);
-    setAccessToken(undefined);
-    setAvatarUrl(undefined);
+    dispatch(signOut());
   };
-
-  // stateが変更されたら、cookieに反映させる。
-  useEffect(() => {
-    // displayName
-    if (typeof displayName === 'string') {
-      setCookie(null, 'displayName', displayName);
-    } else {
-      destroyCookie(null, 'displayName');
-    }
-
-    // accessToken
-    if (typeof accessToken === 'string') {
-      setCookie(null, 'accessToken', accessToken);
-    } else {
-      destroyCookie(null, 'accessToken');
-    }
-
-    // avatarUrl
-    if (typeof avatarUrl === 'string') {
-      setCookie(null, 'avatarUrl', avatarUrl);
-    } else {
-      destroyCookie(null, 'avatarUrl');
-    }
-  }, [displayName, accessToken, avatarUrl]);
 
   return (
     <header className="h-20 bg-gray-100">

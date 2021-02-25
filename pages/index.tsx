@@ -1,11 +1,12 @@
 import Template from '../components/molecules/template';
-import { SyntheticEvent, useState } from 'react';
-import { useRouter } from 'next/router';
-import { parseCookies, setCookie } from 'nookies';
+import Link from 'next/link';
 
 export default function Index() {
-  const router = useRouter();
-  const [displayName, setDisplayName] = useState<string | null>(parseCookies().displayName);
-
-  return <Template pageName="GitHub Search"></Template>;
+  return (
+    <Template pageName="GitHub Search">
+      <Link href="/search">
+        <button>検索</button>
+      </Link>
+    </Template>
+  );
 }
