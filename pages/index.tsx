@@ -1,12 +1,21 @@
-import Template from '../components/molecules/template';
 import Link from 'next/link';
+import Footer from '../components/molecules/footer';
+import Head from 'next/head';
 
 export default function Index() {
   return (
-    <Template pageName="GitHub Search">
-      <Link href="/search">
-        <button>検索</button>
-      </Link>
-    </Template>
+    <>
+      <Head>
+        <title>GitHub Search</title>
+      </Head>
+      <header></header>
+      <main>
+        <Link href="/search">
+          <button>検索</button>
+        </Link>
+        <button>サインイン</button>
+      </main>
+      <Footer></Footer>
+    </>
   );
 }

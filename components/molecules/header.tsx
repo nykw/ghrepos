@@ -1,10 +1,12 @@
-import { destroyCookie, parseCookies, setCookie } from 'nookies';
+import { parseCookies } from 'nookies';
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { signInWithGitHub } from '../../lib/github/signin';
 import Link from 'next/link';
 import getUserInfo from '../../lib/github/userInfo';
 import { useDispatch, useSelector } from 'react-redux';
 import { cookieSlice, CookieState } from '../../features/cookie';
+import { signOut } from '../../lib/github/signOut';
+import { setCookies } from '../../lib/cookie';
 
 type Props = {
   siteName: string;
@@ -15,22 +17,30 @@ const Header: FC<Props> = ({ siteName }) => {
     (state) => state,
   );
   const dispatch = useDispatch();
-  const { signIn, signOut } = cookieSlice.actions;
+  const { register } = cookieSlice.actions;
 
   // Sign Inボタンがクリックされたときの処理
   const signInHander = async (e: SyntheticEvent<HTMLButtonElement>) => {
     try {
-      // Firebase Authを使ってGitHub認証を使ったログインを行い、ログインしたユーザー情報を取得する
+      // Firebase Authを使ってGitHub認証を使ったサインインを行い、サインインしたユーザー情報を取得する
       const { user, credential } = await signInWithGitHub();
 
       // GitHubからユーザー情報を取得する
-      const userInfo = await getUserInfo(displayName!);
+      const userInfo = await getUserInfo(user.displayName);
 
+      // cookieに情報を登録する
+      setCookies({
+        displayName: user.displayName,
+        accessToken: credential.accessToken,
+        avatarUrl: userInfo.avatar_url,
+      });
+
+      // Reduxにアクションを発行する
       dispatch(
-        signIn({
-          displayName: user.displayName,
-          accessToken: credential.accessToken,
-          avatarUrl: userInfo.avatar_url,
+        register({
+          displayName: parseCookies().displayName,
+          accessToken: parseCookies().accessToken,
+          avatarUrl: parseCookies().avatarUrl,
         }),
       );
     } catch (e) {
@@ -42,8 +52,14 @@ const Header: FC<Props> = ({ siteName }) => {
 
   // Sign Outボタンがクリックされたときの処理
   const signOutHandler = async (e: SyntheticEvent<HTMLButtonElement>) => {
+    // Firebase Authでサインアウトを行う
     await signOut();
-    dispatch(signOut());
+
+    // cookieから情報を削除する
+    setCookies({});
+
+    // Reduxにアクションを発行する
+    dispatch(register({}));
   };
 
   return (
