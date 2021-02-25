@@ -1,5 +1,4 @@
-import { parseCookies } from 'nookies';
-import { FC, SyntheticEvent } from 'react';
+import { FC, SyntheticEvent, useEffect } from 'react';
 import { signInWithGitHub } from '../../lib/github/signIn';
 import Link from 'next/link';
 import getUserInfo from '../../lib/github/userInfo';
@@ -7,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { cookieSlice, CookieState } from '../../features/cookie';
 import { signOut } from '../../lib/github/signOut';
 import { setCookies } from '../../lib/cookie';
+import { useRouter } from 'next/dist/client/router';
 
 type Props = {
   siteName: string;
@@ -18,6 +18,7 @@ const Header: FC<Props> = ({ siteName }) => {
   );
   const dispatch = useDispatch();
   const { register } = cookieSlice.actions;
+  const router = useRouter();
 
   // Sign Inボタンがクリックされたときの処理
   const signInHander = async (e: SyntheticEvent<HTMLButtonElement>) => {
@@ -28,21 +29,17 @@ const Header: FC<Props> = ({ siteName }) => {
       // GitHubからユーザー情報を取得する
       const userInfo = await getUserInfo(user.displayName);
 
-      // cookieに情報を登録する
-      setCookies({
-        displayName: user.displayName,
-        accessToken: credential.accessToken,
-        avatarUrl: userInfo.avatar_url,
-      });
-
       // Reduxにアクションを発行する
       dispatch(
         register({
-          displayName: parseCookies().displayName,
-          accessToken: parseCookies().accessToken,
-          avatarUrl: parseCookies().avatarUrl,
+          displayName: user.displayName,
+          accessToken: credential.accessToken,
+          avatarUrl: userInfo.avatar_url,
         }),
       );
+
+      // 検索ページに遷移する
+      router.push('/search');
     } catch (e) {
       if (e instanceof Error) {
         alert(e.message);
@@ -55,48 +52,55 @@ const Header: FC<Props> = ({ siteName }) => {
     // Firebase Authでサインアウトを行う
     await signOut();
 
-    // cookieから情報を削除する
-    setCookies({});
-
     // Reduxにアクションを発行する
     dispatch(register({}));
+
+    // トップページに遷移する
+    router.push('/');
   };
 
+  // グローバルステートの変更をCookieに伝える
+  useEffect(() => {
+    setCookies({ displayName, accessToken, avatarUrl });
+  }, [displayName, accessToken, avatarUrl]);
+
   return (
-    <header className="h-20 bg-gray-100">
-      <div className="flex">
-        <div className="p-5">
+    <header className="h-20 bg-gray-300">
+      <div className="grid grid-cols-10">
+        <div className="p-5 col-start-1 col-end-5">
           <Link href="/">
-            <h1 className="font-bold font-mono text-4xl flex-nowrap">{siteName}</h1>
+            <button className="font-bold text-4xl">{siteName}</button>
           </Link>
         </div>
 
-        <div className="flex md:flex-row p-5">
-          {accessToken ? (
-            <>
-              <Link href="/search">
-                <button className="btn btn-blue">Search</button>
-              </Link>
-              <div className="flex flex-row">
-                <Link href={`/users/${displayName}`}>
-                  <div className="flex flex-row">
+        {accessToken ? (
+          <>
+            <div className="col-start-7 col-end-9 p-5">
+              <div className="w-50 h-10">
+                <img src={avatarUrl!} className="mx-3 h-10 w-10 rounded-full"></img>
+                <div className="">
+                  <Link href={`/users/${displayName}`}>
                     <button className="btn btn-blue">
-                      <div>{displayName} 's Page</div>
+                      <div>{displayName} 's Profile</div>
                     </button>
-                    {avatarUrl && <img src={avatarUrl} className="h-10 w-10"></img>}
-                  </div>
-                </Link>
-                <button className="btn btn-blue" onClick={signOutHandler}>
-                  Sign out
-                </button>
+                  </Link>
+                </div>
               </div>
-            </>
-          ) : (
+            </div>
+
+            <div className="p-5 col-start-9 col-end-10">
+              <button className="btn btn-blue " onClick={signOutHandler}>
+                Sign out
+              </button>
+            </div>
+          </>
+        ) : (
+          <div className="p-5 col-start-9 col-end-10">
             <button className="btn btn-blue flex-right" onClick={signInHander}>
               Sign in
             </button>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </header>
   );
