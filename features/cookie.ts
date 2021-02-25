@@ -1,11 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { parseCookies } from 'nookies';
+import { Cookie } from '../lib/cookie';
 
-export type CookieState = {
-  displayName?: string;
-  accessToken?: string;
-  avatarUrl?: string;
-};
+export type CookieState = Cookie;
 
 const initialState: CookieState = {
   displayName: parseCookies().displayName,
@@ -17,7 +14,6 @@ export const cookieSlice = createSlice({
   name: 'cookie',
   initialState,
   reducers: {
-    signIn: (_, action: PayloadAction<CookieState>) => action.payload,
-    signOut: (_) => ({} as CookieState),
+    register: (_, action: PayloadAction<CookieState>) => action.payload,
   },
 });

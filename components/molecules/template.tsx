@@ -17,7 +17,9 @@ const Template: FC<Props> = ({ pageName, children }) => (
       <link rel="icon" href="/person.svg" />
     </Head>
     <Header siteName={siteName} />
-    <main>{children}</main>
+    <main>
+      <div className="p-5">{children}</div>
+    </main>
     <Footer />
   </>
 );

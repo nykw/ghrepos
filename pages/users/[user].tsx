@@ -57,15 +57,15 @@ const Page: FC<Props> = ({
     <Template pageName={`${login}'s Profile`}>
       <div className="flex">
         <div className="float-left">
-          <p>login:{login}</p>
-          <p>name:{name ?? '???'}</p>
-          {avatar_url && <img src={avatar_url} className="h-40 w-40"></img>}
-          <p>followers:{followers}</p>
-          <p>following:{following}</p>
-          <p>email:{email ?? '???'}</p>
-          <p>location:{location ?? '???'}</p>
+          <p>アカウント名: {login}</p>
+          <p>名前: {name ?? '???'}</p>
+          {avatar_url && <img src={avatar_url} className="h-40 w-40 rounded-full"></img>}
+          <p>フォロワー数: {followers}</p>
+          <p>フォロー数: {following}</p>
+          <p>メールアドレス: {email ?? '???'}</p>
+          <p>場所: {location ?? '???'}</p>
           <p>
-            twitter_username:
+            Twitterアカウント:{' '}
             {twitter_username ? (
               <Link href={`https://twitter.com/${twitter_username}`}>
                 <a className="text-blue-700 hover:underline">@{twitter_username}</a>
@@ -76,21 +76,36 @@ const Page: FC<Props> = ({
           </p>
         </div>
         <div className="bg-blue-100 rounded-md p-4 float-right mx-12">
-          <p>repositories:</p>
-          <ul className="grid grid-cols-2 gap-x-5 gap-y-2">
-            {repositories.map((repos) => {
-              const { id, full_name, name } = repos;
+          <table>
+            <caption>リポジトリ一覧</caption>
+            <thead>
+              <tr>
+                <th>リポジトリ名</th>
+                <th>スター数</th>
+              </tr>
+            </thead>
+            <tbody>
+              {repositories.map((repos) => {
+                const { id, full_name, name, stargazers_count } = repos;
 
-              return (
-                <li key={id}>
-                  <Link href={`https://github.com/${full_name}`}>
-                    <a className="hover:underline text-blue-700 visited:text-purple-600">{name}</a>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
+                return (
+                  <tr key={id}>
+                    <td>{name}</td>
+                    <td>{stargazers_count}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
+      </div>
+
+      <div className="my-5">
+        <Link href="/search">
+          <div className="text-center">
+            <button className="btn btn-blue">Back</button>
+          </div>
+        </Link>
       </div>
     </Template>
   );
