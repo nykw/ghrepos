@@ -76,20 +76,23 @@ const Page: FC<Props> = ({
           </p>
         </div>
         <div className="bg-blue-100 rounded-md p-4 float-right mx-12">
-          <p>repositories:</p>
-          <ul className="grid grid-cols-2 gap-x-5 gap-y-2">
+          <table>
+            <caption>リポジトリ一覧</caption>
+            <tr>
+              <th>リポジトリ名</th>
+              <th>スター数</th>
+            </tr>
             {repositories.map((repos) => {
-              const { id, full_name, name } = repos;
+              const { id, full_name, name, stargazers_count } = repos;
 
               return (
-                <li key={id}>
-                  <Link href={`https://github.com/${full_name}`}>
-                    <a className="hover:underline text-blue-700 visited:text-purple-600">{name}</a>
-                  </Link>
-                </li>
+                <tr>
+                  <td>{name}</td>
+                  <td>{stargazers_count}</td>
+                </tr>
               );
             })}
-          </ul>
+          </table>
         </div>
       </div>
     </Template>
