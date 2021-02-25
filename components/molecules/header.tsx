@@ -64,31 +64,39 @@ const Header: FC<Props> = ({ siteName }) => {
 
   return (
     <header className="h-20 bg-gray-100">
-      <h1 className="font-bold font-mono text-4xl box-content object-center">{siteName}</h1>
-      <div>
-        {accessToken ? (
-          <div>
-            {avatarUrl && <img src={avatarUrl} className="h-10 w-10"></img>}
-            <Link href={`/users/${displayName}`}>
-              <button className="bg-blue-700 h-10 w-32 font-bold text-white rounded-md">
-                {displayName} 's Page
-              </button>
-            </Link>{' '}
-            <button
-              className="bg-blue-700 h-10 w-32 font-bold text-white rounded-md"
-              onClick={signOutHandler}
-            >
-              Sign out
+      <div className="flex">
+        <div className="p-5">
+          <Link href="/">
+            <h1 className="font-bold font-mono text-4xl flex-nowrap">{siteName}</h1>
+          </Link>
+        </div>
+
+        <div className="flex md:flex-row p-5">
+          {accessToken ? (
+            <>
+              <Link href="/search">
+                <button className="btn btn-blue">Search</button>
+              </Link>
+              <div className="flex flex-row">
+                <Link href={`/users/${displayName}`}>
+                  <div className="flex flex-row">
+                    <button className="btn btn-blue">
+                      <div>{displayName} 's Page</div>
+                    </button>
+                    {avatarUrl && <img src={avatarUrl} className="h-10 w-10"></img>}
+                  </div>
+                </Link>
+                <button className="btn btn-blue" onClick={signOutHandler}>
+                  Sign out
+                </button>
+              </div>
+            </>
+          ) : (
+            <button className="btn btn-blue flex-right" onClick={signInHander}>
+              Sign in
             </button>
-          </div>
-        ) : (
-          <button
-            className="bg-blue-700 h-10 w-20 font-bold text-white rounded-md"
-            onClick={signInHander}
-          >
-            Sign in
-          </button>
-        )}
+          )}
+        </div>
       </div>
     </header>
   );

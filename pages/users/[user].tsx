@@ -78,20 +78,24 @@ const Page: FC<Props> = ({
         <div className="bg-blue-100 rounded-md p-4 float-right mx-12">
           <table>
             <caption>リポジトリ一覧</caption>
-            <tr>
-              <th>リポジトリ名</th>
-              <th>スター数</th>
-            </tr>
-            {repositories.map((repos) => {
-              const { id, full_name, name, stargazers_count } = repos;
+            <thead>
+              <tr>
+                <th>リポジトリ名</th>
+                <th>スター数</th>
+              </tr>
+            </thead>
+            <tbody>
+              {repositories.map((repos) => {
+                const { id, full_name, name, stargazers_count } = repos;
 
-              return (
-                <tr>
-                  <td>{name}</td>
-                  <td>{stargazers_count}</td>
-                </tr>
-              );
-            })}
+                return (
+                  <tr key={id}>
+                    <td>{name}</td>
+                    <td>{stargazers_count}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
           </table>
         </div>
       </div>
