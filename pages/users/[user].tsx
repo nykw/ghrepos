@@ -60,7 +60,9 @@ const Page: FC<Props> = ({
           <h1 className="mt-5">{login}</h1>
 
           <div className="mt-5">
-            <img src={avatar_url} className="h-48 w-48 rounded-full mx-auto"></img>
+            <Link href={`https://github.com/${login}`}>
+              <img src={avatar_url} className="h-48 w-48 rounded-full mx-auto cursor-pointer" />
+            </Link>
           </div>
 
           <div className="mt-7">

@@ -19,7 +19,7 @@
 
 @layer components {
   .btn {
-    @apply h-10 w-32 font-bold rounded-md;
+    @apply px-3 py-2 font-bold rounded-xl;
   }
   .btn-blue {
     @apply bg-blue-700 text-white;

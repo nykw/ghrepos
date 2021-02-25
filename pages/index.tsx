@@ -1,11 +1,7 @@
 import Link from 'next/link';
-import { useSelector } from 'react-redux';
 import Template from '../components/molecules/template';
-import { CookieState } from '../features/cookie';
 
 export default function Index() {
-  const { accessToken } = useSelector<CookieState, CookieState>((state) => state);
-
   return (
     <Template pageName="GitHub Search">
       <div className="flex-col my-10">
