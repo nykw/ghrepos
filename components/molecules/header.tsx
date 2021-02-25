@@ -57,7 +57,13 @@ const Header: FC<Props> = ({ siteName }) => {
     await signOut();
 
     // Reduxにアクションを発行する
-    dispatch(register({}));
+    dispatch(
+      register({
+        displayName: undefined,
+        accessToken: undefined,
+        avatarUrl: undefined,
+      }),
+    );
 
     // トップページに遷移する
     router.push('/');

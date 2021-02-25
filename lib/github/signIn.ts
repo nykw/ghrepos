@@ -27,7 +27,7 @@ type Result = {
   credential: Credential;
 };
 
-/** GitHubアカウントを使ったログインを行います。 */
+/** GitHubアカウントを使ったサインインを行います。 */
 export const signInWithGitHub = async (): Promise<Result> => {
   if (firebase.apps.length === 0) {
     // Initialize Firebase

@@ -2,8 +2,6 @@
  * GET /users/{username}/repos API に対する処理
  */
 
-import { NoReposDataError } from './errors/reposInfo';
-
 /** GET /users/{username}/repos APIの正常系のときにこの型の配列が返される。 */
 export type Repository = {
   id: number;
@@ -99,6 +97,16 @@ export type Repository = {
   watchers: number;
   default_branch: string;
 };
+
+/** ユーザー名 login のリポジトリ情報が存在しなかったときに発生する例外 */
+export class NoReposDataError extends Error {
+  name = `No repository data.`;
+  message: string;
+  constructor(login: string) {
+    super();
+    this.message = `ユーザー名 ${login} のリポジトリ情報が存在しません。`;
+  }
+}
 
 // fetchした結果の型
 type Result =
