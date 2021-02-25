@@ -9,7 +9,7 @@ export default function Index() {
   return (
     <Template pageName="GitHub Search">
       <div className="flex-col my-10">
-        <h1 className="text-6xl text-center font-bold flex-grow-0">GitHub Search</h1>
+        <h1 className="text-center flex-grow-0">GitHub Search</h1>
         <p className="text-center mt-7 font-bold">
           入力したユーザー名のGitHubユーザー情報を表示します。
         </p>

@@ -2,6 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  a {
+    @apply text-blue-700 hover:underline;
+  }
+  h1 {
+    @apply text-5xl font-bold;
+  }
+  h2 {
+    @apply text-2xl font-bold;
+  }
+  p {
+    @apply text-lg;
+  }
+}
+
 @layer components {
   .btn {
     @apply h-10 w-32 font-bold rounded-md;
