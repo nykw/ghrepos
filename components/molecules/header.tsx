@@ -1,6 +1,6 @@
 import { parseCookies } from 'nookies';
-import { FC, SyntheticEvent, useEffect, useState } from 'react';
-import { signInWithGitHub } from '../../lib/github/signin';
+import { FC, SyntheticEvent } from 'react';
+import { signInWithGitHub } from '../../lib/github/signIn';
 import Link from 'next/link';
 import getUserInfo from '../../lib/github/userInfo';
 import { useDispatch, useSelector } from 'react-redux';
