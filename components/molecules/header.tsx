@@ -3,7 +3,8 @@ import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { signInWithGitHub } from '../../lib/github/signin';
 import Link from 'next/link';
 import getUserInfo from '../../lib/github/userInfo';
-import { signOut } from '../../lib/github/signOut';
+import { useDispatch } from 'react-redux';
+import { cookieSlice } from '../../features/cookie';
 
 type Props = {
   siteName: string;
@@ -13,6 +14,9 @@ const Header: FC<Props> = ({ siteName }) => {
   const [displayName, setDisplayName] = useState<string | undefined>(parseCookies().displayName);
   const [accessToken, setAccessToken] = useState<string | undefined>(parseCookies().accessToken);
   const [avatarUrl, setAvatarUrl] = useState<string | undefined>();
+
+  const dispatch = useDispatch();
+  const { signIn, signOut } = cookieSlice.actions;
 
   // Sign Inボタンがクリックされたときの処理
   const signInHander = async (e: SyntheticEvent<HTMLButtonElement>) => {
@@ -26,6 +30,14 @@ const Header: FC<Props> = ({ siteName }) => {
       // GitHubからユーザー情報を取得する
       const userInfo = await getUserInfo(displayName!);
       setAvatarUrl(userInfo.avatar_url);
+
+      dispatch(
+        signIn({
+          displayName: user.displayName,
+          accessToken: credential.accessToken,
+          avatarUrl: userInfo.avatar_url,
+        }),
+      );
     } catch (e) {
       if (e instanceof Error) {
         alert(e.message);
@@ -39,6 +51,8 @@ const Header: FC<Props> = ({ siteName }) => {
     setDisplayName(undefined);
     setAccessToken(undefined);
     setAvatarUrl(undefined);
+
+    dispatch(signOut());
   };
 
   // stateが変更されたら、cookieに反映させる。
