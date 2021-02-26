@@ -1,6 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
+/** サインアウト */
 export const signOut = async () => {
   try {
     if (firebase.apps.length > 0) {

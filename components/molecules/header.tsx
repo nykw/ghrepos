@@ -22,6 +22,8 @@ const Header: FC<Props> = ({ siteName }) => {
 
   // Sign Inボタンがクリックされたときの処理
   const signInHander = async (e: SyntheticEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
     try {
       // Firebase Authを使ってGitHub認証を使ったサインインを行い、サインインしたユーザー情報を取得する
       const { user, credential } = await signInWithGitHub();
@@ -49,14 +51,28 @@ const Header: FC<Props> = ({ siteName }) => {
 
   // Sign Outボタンがクリックされたときの処理
   const signOutHandler = async (e: SyntheticEvent<HTMLButtonElement>) => {
-    // Firebase Authでサインアウトを行う
-    await signOut();
+    e.preventDefault();
 
-    // Reduxにアクションを発行する
-    dispatch(register({}));
+    try {
+      // Firebase Authでサインアウトを行う
+      await signOut();
 
-    // トップページに遷移する
-    router.push('/');
+      // Reduxにアクションを発行する
+      dispatch(
+        register({
+          displayName: undefined,
+          accessToken: undefined,
+          avatarUrl: undefined,
+        }),
+      );
+
+      // トップページに遷移する
+      router.push('/');
+    } catch (e) {
+      if (e instanceof Error) {
+        alert(e.message);
+      }
+    }
   };
 
   // グローバルステートの変更をCookieに伝える
@@ -65,42 +81,33 @@ const Header: FC<Props> = ({ siteName }) => {
   }, [displayName, accessToken, avatarUrl]);
 
   return (
-    <header className="h-20 bg-gray-300">
-      <div className="grid grid-cols-10">
-        <div className="p-5 col-start-1 col-end-5">
+    <header className="py-3">
+      <div className="flex items-center justify-between">
+        <div className="p-5">
           <Link href="/">
             <button className="font-bold text-4xl">{siteName}</button>
           </Link>
         </div>
 
-        {accessToken ? (
-          <>
-            <div className="col-start-7 col-end-9 p-5">
-              <div className="w-50 h-10">
-                <img src={avatarUrl!} className="mx-3 h-10 w-10 rounded-full"></img>
-                <div className="">
-                  <Link href={`/users/${displayName}`}>
-                    <button className="btn btn-blue">
-                      <div>{displayName} 's Profile</div>
-                    </button>
-                  </Link>
-                </div>
-              </div>
-            </div>
+        <div className="flex w-1/7 space-x-2 mx-5">
+          {accessToken && (
+            <Link href={`/users/${displayName}`}>
+              <img src={avatarUrl!} className="h-10 w-10 rounded-full cursor-pointer shadow-sm" />
+            </Link>
+          )}
 
-            <div className="p-5 col-start-9 col-end-10">
-              <button className="btn btn-blue " onClick={signOutHandler}>
+          <div>
+            {accessToken ? (
+              <button className="btn btn-white " onClick={signOutHandler}>
                 Sign out
               </button>
-            </div>
-          </>
-        ) : (
-          <div className="p-5 col-start-9 col-end-10">
-            <button className="btn btn-blue flex-right" onClick={signInHander}>
-              Sign in
-            </button>
+            ) : (
+              <button className="btn btn-white" onClick={signInHander}>
+                Sign in
+              </button>
+            )}
           </div>
-        )}
+        </div>
       </div>
     </header>
   );

@@ -4,6 +4,7 @@ import getUserInfo, { User } from '../../lib/github/userInfo';
 import getReposInfo, { Repository } from '../../lib/github/reposInfo';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 
 type Props = User & {
   repositories: Repository[];
@@ -55,57 +56,84 @@ const Page: FC<Props> = ({
 }) => {
   return (
     <Template pageName={`${login}'s Profile`}>
-      <div className="flex">
-        <div className="float-left">
-          <p>アカウント名: {login}</p>
-          <p>名前: {name ?? '???'}</p>
-          {avatar_url && <img src={avatar_url} className="h-40 w-40 rounded-full"></img>}
-          <p>フォロワー数: {followers}</p>
-          <p>フォロー数: {following}</p>
-          <p>メールアドレス: {email ?? '???'}</p>
-          <p>場所: {location ?? '???'}</p>
-          <p>
-            Twitterアカウント:{' '}
+      <div className="my-auto text-center">
+        <h1 className="mt-5">{login}</h1>
+
+        <div className="mt-5">
+          <Link href={`https://github.com/${login}`}>
+            <img
+              src={avatar_url}
+              className="h-48 w-48 rounded-full mx-auto cursor-pointer shadow-xl"
+            />
+          </Link>
+        </div>
+
+        <div className="mt-7">
+          <h2>名前</h2>
+          <p className="mt-1">{name ?? '???'}</p>
+        </div>
+
+        <div className="mt-5">
+          <h2>フォロワー数</h2>
+          <p className="mt-1 lining-nums">{followers}</p>
+        </div>
+        <div className="mt-5">
+          <h2>フォロー数</h2>
+          <p className="mt-1 lining-nums">{following}</p>
+        </div>
+
+        <div className="mt-5">
+          <h2>メールアドレス</h2>
+          <p className="mt-1">{email ?? '???'}</p>
+        </div>
+
+        <div className="mt-5">
+          <h2>場所</h2>
+          <p className="mt-1">{location ?? '???'}</p>
+        </div>
+
+        <div className="mt-5">
+          <h2>twitter</h2>
+          <p className="mt-1">
             {twitter_username ? (
               <Link href={`https://twitter.com/${twitter_username}`}>
-                <a className="text-blue-700 hover:underline">@{twitter_username}</a>
+                <a>@{twitter_username}</a>
               </Link>
             ) : (
               '???'
             )}
           </p>
         </div>
-        <div className="bg-blue-100 rounded-md p-4 float-right mx-12">
-          <table>
-            <caption>リポジトリ一覧</caption>
-            <thead>
-              <tr>
-                <th>リポジトリ名</th>
-                <th>スター数</th>
-              </tr>
-            </thead>
-            <tbody>
-              {repositories.map((repos) => {
+
+        <div className="mt-5 mx-auto">
+          <h2>リポジトリ一覧</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 p-5">
+            {repositories
+              .sort((prev, curr) => (curr.stargazers_count - prev.stargazers_count >= 0 ? 1 : -1))
+              .map((repos) => {
                 const { id, full_name, name, stargazers_count } = repos;
 
                 return (
-                  <tr key={id}>
-                    <td>{name}</td>
-                    <td>{stargazers_count}</td>
-                  </tr>
+                  <Link key={id} href={`https://github.com/${full_name}`}>
+                    <div className="bg-white rounded-md m-2 shadow-md cursor-pointer">
+                      <p className="font-bold">{name}</p>
+                      <div className="tabular-nums mt-1">
+                        <Image src="/star.svg" width={17} height={17}></Image> {stargazers_count}
+                      </div>
+                    </div>
+                  </Link>
                 );
               })}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div className="my-5">
-        <Link href="/search">
-          <div className="text-center">
-            <button className="btn btn-blue">Back</button>
           </div>
-        </Link>
+        </div>
+
+        <div className="mt-5 mb-2">
+          <Link href="/search">
+            <div className="text-center">
+              <button className="btn btn-white">Back</button>
+            </div>
+          </Link>
+        </div>
       </div>
     </Template>
   );
