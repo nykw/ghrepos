@@ -4,7 +4,7 @@ import Template from '../components/molecules/template';
 export default function Index() {
   return (
     <Template pageName="GitHub Search">
-      <div className="flex-col my-10">
+      <div className="my-auto">
         <h1 className="text-center flex-grow-0">GitHub Search</h1>
         <p className="text-center mt-7 font-bold">
           入力したユーザー名のGitHubユーザー情報を表示します。

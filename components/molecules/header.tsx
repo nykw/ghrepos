@@ -81,7 +81,7 @@ const Header: FC<Props> = ({ siteName }) => {
   }, [displayName, accessToken, avatarUrl]);
 
   return (
-    <header className="py-3 min-w-full">
+    <header className="py-3">
       <div className="flex items-center justify-between">
         <div className="p-5">
           <Link href="/">
@@ -91,11 +91,9 @@ const Header: FC<Props> = ({ siteName }) => {
 
         <div className="flex w-1/7 space-x-2 mx-5">
           {accessToken && (
-            <div>
-              <Link href={`/users/${displayName}`}>
-                <img src={avatarUrl!} className="h-10 w-10 rounded-full cursor-pointer shadow-sm" />
-              </Link>
-            </div>
+            <Link href={`/users/${displayName}`}>
+              <img src={avatarUrl!} className="h-10 w-10 rounded-full cursor-pointer shadow-sm" />
+            </Link>
           )}
 
           <div>

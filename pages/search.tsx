@@ -32,7 +32,7 @@ export default function Index() {
 
   return (
     <Template pageName="GitHub Search">
-      <div className="m-5">
+      <div className="my-auto">
         <form className="text-center">
           <div>
             <label>
@@ -57,7 +57,7 @@ export default function Index() {
           </div>
         </form>
 
-        <div className="mt-10">
+        <div className="mt-16">
           <h2 className="text-center">機能</h2>
           <div className="text-center mt-5 mx-10">
             GitHubのユーザー名を入力してSubmitボタンを押すと、そのユーザーの説明ページにリンクします。

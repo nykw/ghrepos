@@ -56,7 +56,7 @@ const Page: FC<Props> = ({
 }) => {
   return (
     <Template pageName={`${login}'s Profile`}>
-      <div className="flex-col text-center">
+      <div className="my-auto text-center">
         <h1 className="mt-5">{login}</h1>
 
         <div className="mt-5">
@@ -106,23 +106,25 @@ const Page: FC<Props> = ({
         </div>
 
         <div className="mt-5 mx-auto">
-          <h2 className="mb-5">リポジトリ一覧</h2>
-          {repositories
-            .sort((prev, curr) => (curr.stargazers_count - prev.stargazers_count >= 0 ? 1 : -1))
-            .map((repos) => {
-              const { full_name, name, stargazers_count } = repos;
+          <h2>リポジトリ一覧</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 p-5">
+            {repositories
+              .sort((prev, curr) => (curr.stargazers_count - prev.stargazers_count >= 0 ? 1 : -1))
+              .map((repos) => {
+                const { id, full_name, name, stargazers_count } = repos;
 
-              return (
-                <Link href={`https://github.com/${full_name}`}>
-                  <div className="bg-white rounded-md mx-auto my-2 shadow-md max-w-sm cursor-pointer">
-                    <p className="font-bold">{name}</p>
-                    <div className="tabular-nums mt-1">
-                      <Image src="/star.svg" width={17} height={17}></Image> {stargazers_count}
+                return (
+                  <Link key={id} href={`https://github.com/${full_name}`}>
+                    <div className="bg-white rounded-md m-2 shadow-md cursor-pointer">
+                      <p className="font-bold">{name}</p>
+                      <div className="tabular-nums mt-1">
+                        <Image src="/star.svg" width={17} height={17}></Image> {stargazers_count}
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              );
-            })}
+                  </Link>
+                );
+              })}
+          </div>
         </div>
 
         <div className="mt-5 mb-2">

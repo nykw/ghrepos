@@ -11,15 +11,13 @@ type Props = {
 export const siteName = 'GitHub Search';
 
 const Template: FC<Props> = ({ pageName, children }) => (
-  <div className="flex flex-col min-h-screen">
+  <div className="flex flex-col min-h-screen bg-gray-50">
     <Head>
       <title>{pageName}</title>
       <link rel="icon" href="/person.svg" />
     </Head>
     <Header siteName={siteName} />
-    <main className="flex-grow">
-      <div className="p-5">{children}</div>
-    </main>
+    <main className="flex-grow flex flex-col">{children}</main>
     <Footer />
   </div>
 );
