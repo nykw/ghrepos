@@ -53,20 +53,26 @@ const Header: FC<Props> = ({ siteName }) => {
   const signOutHandler = async (e: SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    // Firebase Authでサインアウトを行う
-    await signOut();
+    try {
+      // Firebase Authでサインアウトを行う
+      await signOut();
 
-    // Reduxにアクションを発行する
-    dispatch(
-      register({
-        displayName: undefined,
-        accessToken: undefined,
-        avatarUrl: undefined,
-      }),
-    );
+      // Reduxにアクションを発行する
+      dispatch(
+        register({
+          displayName: undefined,
+          accessToken: undefined,
+          avatarUrl: undefined,
+        }),
+      );
 
-    // トップページに遷移する
-    router.push('/');
+      // トップページに遷移する
+      router.push('/');
+    } catch (e) {
+      if (e instanceof Error) {
+        alert(e.message);
+      }
+    }
   };
 
   // グローバルステートの変更をCookieに伝える
@@ -75,7 +81,7 @@ const Header: FC<Props> = ({ siteName }) => {
   }, [displayName, accessToken, avatarUrl]);
 
   return (
-    <header className="py-3 bg-gray-300">
+    <header className="py-3 min-w-full">
       <div className="flex items-center justify-between">
         <div className="p-5">
           <Link href="/">
@@ -83,22 +89,22 @@ const Header: FC<Props> = ({ siteName }) => {
           </Link>
         </div>
 
-        <div className="flex space-x-2 mx-5">
+        <div className="flex w-1/7 space-x-2 mx-5">
           {accessToken && (
             <div>
               <Link href={`/users/${displayName}`}>
-                <img src={avatarUrl!} className="h-10 w-10 rounded-full cursor-pointer" />
+                <img src={avatarUrl!} className="h-10 w-10 rounded-full cursor-pointer shadow-sm" />
               </Link>
             </div>
           )}
 
           <div>
             {accessToken ? (
-              <button className="btn btn-blue " onClick={signOutHandler}>
+              <button className="btn btn-white " onClick={signOutHandler}>
                 Sign out
               </button>
             ) : (
-              <button className="btn btn-blue" onClick={signInHander}>
+              <button className="btn btn-white" onClick={signInHander}>
                 Sign in
               </button>
             )}

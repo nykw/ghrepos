@@ -43,14 +43,14 @@ export default function Index() {
                 onChange={handleChange}
                 onKeyPress={handleEnter}
                 value={user}
-                className="bg-blue-50 rounded-md pl-2 mt-5"
+                className="bg-blue-50 rounded-md pl-2 mt-5 placeholder-blue-200"
                 placeholder="username"
               />
             </label>
           </div>
           <div className="mt-5">
             <Link href={`/users/${user}`}>
-              <button type="button" className="btn btn-blue" onClick={handleClick}>
+              <button type="button" className="btn btn-white" onClick={handleClick}>
                 Submit
               </button>
             </Link>
@@ -59,7 +59,7 @@ export default function Index() {
 
         <div className="mt-10">
           <h2 className="text-center">機能</h2>
-          <div className="w-300 text-center mt-5 mx-10">
+          <div className="text-center mt-5 mx-10">
             GitHubのユーザー名を入力してSubmitボタンを押すと、そのユーザーの説明ページにリンクします。
           </div>
         </div>

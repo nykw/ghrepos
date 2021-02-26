@@ -1,3 +1,3 @@
-const Footer = () => <footer className="h-20 bg-gray-300"></footer>;
+const Footer = () => <footer className="h-20 w-screen"></footer>;
 
 export default Footer;

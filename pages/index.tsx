@@ -11,7 +11,7 @@ export default function Index() {
         </p>
         <div className="mt-5 text-center">
           <Link href="/search">
-            <button className="btn btn-blue">Search</button>
+            <button className="btn btn-white">Search</button>
           </Link>
         </div>
       </div>

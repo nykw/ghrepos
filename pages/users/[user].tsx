@@ -4,6 +4,7 @@ import getUserInfo, { User } from '../../lib/github/userInfo';
 import getReposInfo, { Repository } from '../../lib/github/reposInfo';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 
 type Props = User & {
   repositories: Repository[];
@@ -60,7 +61,10 @@ const Page: FC<Props> = ({
 
         <div className="mt-5">
           <Link href={`https://github.com/${login}`}>
-            <img src={avatar_url} className="h-48 w-48 rounded-full mx-auto cursor-pointer" />
+            <img
+              src={avatar_url}
+              className="h-48 w-48 rounded-full mx-auto cursor-pointer shadow-xl"
+            />
           </Link>
         </div>
 
@@ -71,11 +75,11 @@ const Page: FC<Props> = ({
 
         <div className="mt-5">
           <h2>フォロワー数</h2>
-          <p className="mt-1">{followers}</p>
+          <p className="mt-1 lining-nums">{followers}</p>
         </div>
         <div className="mt-5">
           <h2>フォロー数</h2>
-          <p className="mt-1">{following}</p>
+          <p className="mt-1 lining-nums">{following}</p>
         </div>
 
         <div className="mt-5">
@@ -101,38 +105,30 @@ const Page: FC<Props> = ({
           </p>
         </div>
 
-        <table>
-          <caption className="mt-3">
-            <h2>リポジトリ一覧</h2>
-          </caption>
-          <thead className="mt-3">
-            <tr>
-              <th>リポジトリ名</th>
-              <th>スター数</th>
-            </tr>
-          </thead>
-          <tbody>
-            {repositories.map((repos) => {
-              const { id, full_name, name, stargazers_count } = repos;
+        <div className="mt-5 mx-auto">
+          <h2 className="mb-5">リポジトリ一覧</h2>
+          {repositories
+            .sort((prev, curr) => (curr.stargazers_count - prev.stargazers_count >= 0 ? 1 : -1))
+            .map((repos) => {
+              const { full_name, name, stargazers_count } = repos;
 
               return (
-                <tr key={id}>
-                  <td>
-                    <Link href={`https://github.com/${full_name}`}>
-                      <a>{name}</a>
-                    </Link>
-                  </td>
-                  <td>{stargazers_count}</td>
-                </tr>
+                <Link href={`https://github.com/${full_name}`}>
+                  <div className="bg-white rounded-md mx-auto my-2 shadow-md max-w-sm cursor-pointer">
+                    <p className="font-bold">{name}</p>
+                    <div className="tabular-nums mt-1">
+                      <Image src="/star.svg" width={17} height={17}></Image> {stargazers_count}
+                    </div>
+                  </div>
+                </Link>
               );
             })}
-          </tbody>
-        </table>
+        </div>
 
-        <div className="my-5">
+        <div className="mt-5 mb-2">
           <Link href="/search">
             <div className="text-center">
-              <button className="btn btn-blue">Back</button>
+              <button className="btn btn-white">Back</button>
             </div>
           </Link>
         </div>

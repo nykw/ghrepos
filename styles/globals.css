@@ -15,16 +15,20 @@
   p {
     @apply text-lg;
   }
+  header,
+  footer {
+    @apply bg-gray-200;
+  }
 }
 
 @layer components {
   .btn {
-    @apply px-3 py-2 font-bold rounded-xl;
+    @apply px-3 py-2 font-bold rounded shadow-md;
   }
-  .btn-blue {
-    @apply bg-blue-700 text-white;
+  .btn-white {
+    @apply bg-white text-blue-700 border-blue-700 border-2;
   }
-  .btn-blue:hover {
-    @apply bg-blue-600;
+  .btn-white:hover {
+    @apply bg-blue-100;
   }
 }
