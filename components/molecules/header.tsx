@@ -1,10 +1,10 @@
 import { FC, SyntheticEvent, useEffect } from 'react';
-import { signInWithGitHub } from '../../lib/github/signIn';
+import { signInWithGitHub } from '../../lib/github/account/signIn';
 import Link from 'next/link';
 import getUserInfo from '../../lib/github/userInfo';
 import { useDispatch, useSelector } from 'react-redux';
 import { cookieSlice, CookieState } from '../../features/cookie';
-import { signOut } from '../../lib/github/signOut';
+import { signOut } from '../../lib/github/account/signOut';
 import { setCookies } from '../../lib/cookie';
 import { useRouter } from 'next/dist/client/router';
 

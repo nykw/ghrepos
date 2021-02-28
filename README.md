@@ -19,7 +19,8 @@ Next.js と Tailwind CSS、Firebase Authentication (以下、 Firebase Auth) に
 
 - **Tailwind CSS を用いたスタイリング**
 
-  Next.js は React を用いたフレームワークなので、再利用可能なコンポーネントを作成します。そのため、スタイリングにもコンポーネント指向を利用できるものとして Tailwind CSS を採用しました。
+  Next.js は React を用いたフレームワークなので、再利用可能なコンポーネントを作成します。
+  そのため、スタイリングにもコンポーネント指向を利用できるものとして Tailwind CSS を採用しました。
 
 - **GitHub API を用いたデータ取得**
 
@@ -27,7 +28,14 @@ Next.js と Tailwind CSS、Firebase Authentication (以下、 Firebase Auth) に
 
 ## デモ
 
-[https://ghsearch.vercel.app/](https://ghsearch.vercel.app/)
+  - main
+  
+    [https://ghsearch.vercel.app/](https://ghsearch.vercel.app/)
+
+  - develop
+    
+    [https://ghsearch-git-develop-nykw.vercel.app](https://ghsearch-git-develop-nykw.vercel.app)
+    
 
 ## 開発環境
 
