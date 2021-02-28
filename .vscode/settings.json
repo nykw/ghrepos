@@ -8,5 +8,11 @@
     "javascriptreact": "html",
     "typescriptreact": "html"
   },
-  "tailwindCSS.emmetCompletions": true
+  "tailwindCSS.emmetCompletions": true,
+  "json.schemas": [
+    {
+      "fileMatch": ["**/*"],
+      "url": "http://json.schemastore.org/package"
+    }
+  ]
 }
