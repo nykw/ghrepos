@@ -85,7 +85,7 @@ const Header: FC<Props> = ({ siteName }) => {
       <div className="flex items-center justify-between">
         <div className="p-5">
           <Link href="/">
-            <button className="font-bold text-4xl">{siteName}</button>
+            <button className="font-bold text-4xl select-none">{siteName}</button>
           </Link>
         </div>
 

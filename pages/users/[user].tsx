@@ -126,14 +126,6 @@ const Page: FC<Props> = ({
               })}
           </div>
         </div>
-
-        <div className="mt-5 mb-2">
-          <Link href="/search">
-            <div className="text-center">
-              <button className="btn btn-white">Back</button>
-            </div>
-          </Link>
-        </div>
       </div>
     </Template>
   );

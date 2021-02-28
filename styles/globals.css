@@ -7,10 +7,10 @@
     @apply text-blue-700 hover:underline;
   }
   h1 {
-    @apply text-5xl font-bold;
+    @apply text-5xl font-bold select-none;
   }
   h2 {
-    @apply text-2xl font-bold;
+    @apply text-2xl font-bold select-none;
   }
   p {
     @apply text-lg;
@@ -23,7 +23,7 @@
 
 @layer components {
   .btn {
-    @apply px-3 py-2 font-bold rounded shadow-md;
+    @apply px-3 py-2 font-bold rounded shadow-md select-none;
   }
   .btn-white {
     @apply bg-white text-blue-700 border-blue-700 border-2;
