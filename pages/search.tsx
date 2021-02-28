@@ -2,12 +2,12 @@ import Template from '../components/molecules/template';
 import Link from 'next/link';
 import { useState } from 'react';
 
-/** 入力したユーザー名が正しい形式かを評価する。 */
-const validateUserName = (inputUserName: string): boolean =>
-  inputUserName.length > 0 && inputUserName.split('/').length === 1;
-
 export default function Index() {
   const [user, setUser] = useState(''); // 入力されたユーザー名
+
+  /** 入力したユーザー名が正しい形式かを評価する。 */
+  const validateUserName = (inputUserName: string): boolean =>
+    inputUserName.length > 0 && inputUserName.split('/').length === 1;
 
   /** ユーザー名編集のイベントハンドラー */
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -34,19 +34,17 @@ export default function Index() {
     <Template pageName="GitHub Search">
       <div className="my-auto">
         <form className="text-center">
-          <div>
-            <label>
-              <h2 className="font-bold">ユーザー名</h2>
-              <input
-                type="text"
-                name="user"
-                onChange={handleChange}
-                onKeyPress={handleEnter}
-                value={user}
-                className="bg-blue-50 rounded-md pl-2 mt-5 placeholder-blue-200"
-                placeholder="username"
-              />
-            </label>
+          <div className="select-none">
+            <h2 className="font-bold">ユーザー名</h2>
+            <input
+              type="text"
+              name="user"
+              onChange={handleChange}
+              onKeyPress={handleEnter}
+              value={user}
+              className="bg-blue-50 rounded-md pl-2 mt-5 placeholder-blue-200"
+              placeholder="username"
+            />
           </div>
           <div className="mt-5">
             <Link href={`/users/${user}`}>

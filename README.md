@@ -15,7 +15,7 @@ Next.js と Tailwind CSS、Firebase Authentication (以下、 Firebase Auth) に
 
   また、Next.js はルーティングごとに、サーバーから新しい HTML を取得します。
   そのためルーティングの前後でグローバル状態を共有するために、工夫する必要があります。
-  今回はログイン状態を維持するために Redux と Cookie を用いました。
+  今回はログイン状態を管理しながらインタラクティブな UI を実現するために、 Redux の store と Cookie を同期させるようにしました。
 
 - **Tailwind CSS を用いたスタイリング**
 
@@ -28,14 +28,13 @@ Next.js と Tailwind CSS、Firebase Authentication (以下、 Firebase Auth) に
 
 ## デモ
 
-  - main
-  
-    [https://ghsearch.vercel.app/](https://ghsearch.vercel.app/)
+- main
 
-  - develop
-    
-    [https://ghsearch-git-develop-nykw.vercel.app](https://ghsearch-git-develop-nykw.vercel.app)
-    
+  [https://ghsearch.vercel.app/](https://ghsearch.vercel.app/)
+
+- develop
+
+  [https://ghsearch-git-develop-nykw.vercel.app](https://ghsearch-git-develop-nykw.vercel.app)
 
 ## 開発環境
 
