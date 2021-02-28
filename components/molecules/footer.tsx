@@ -18,7 +18,8 @@ const Footer = () => {
       const ok = confirm("本当に削除しますか？");
 
       if (ok) {
-        deleteAccount();
+        // アカウントの削除
+        await deleteAccount();
 
         // Reduxにアクションを発行する
         dispatch(
