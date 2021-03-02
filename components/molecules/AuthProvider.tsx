@@ -1,7 +1,6 @@
-import { useRouter } from 'next/dist/client/router';
 import { FC, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { cookieSlice, CookieState } from '../../features/cookie';
+import { useSelector } from 'react-redux';
+import { CookieState } from '../../features/cookie';
 import { setCookies } from '../../lib/cookie';
 
 const AuthProvider: FC = ({ children }) => {

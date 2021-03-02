@@ -1,7 +1,4 @@
-import firebase from 'firebase/app';
-// import 'firebase/auth';
-
-import { auth } from './auth';
+import { auth, githubAuthProvider } from '../../auth';
 
 type User = {
   displayName: string;
@@ -21,17 +18,13 @@ type Result = {
 
 /** GitHubアカウントを使ったサインインを行います。 */
 export const signInWithGitHub = async (): Promise<Result> => {
-  // see https://firebase.google.com/docs/auth/web/github-auth?hl=ja#handle_the_sign-in_flow_with_the_firebase_sdk
-  const provider = new firebase.auth.GithubAuthProvider();
-  provider.setCustomParameters({
-    client_id: process.env.CLIENT_ID,
-  });
-
   try {
     const {
       user,
       credential,
-    }: { user: User; credential: Credential } = (await auth.signInWithPopup(provider)) as any;
+    }: { user: User; credential: Credential } = (await auth.signInWithPopup(
+      githubAuthProvider,
+    )) as any;
 
     const { displayName, email } = user;
     const { accessToken, providerId, signInMethod } = credential;
