@@ -28,7 +28,7 @@ const Header: FC<Props> = ({ siteName }) => {
       const { user, credential, idToken } = await signInWithGitHub();
 
       // GitHubからユーザー情報を取得する
-      const userInfo = await getUserInfo(user.displayName);
+      const userInfo = await getUserInfo(user.username);
 
       // Reduxにアクションを発行する
       dispatch(
@@ -36,7 +36,8 @@ const Header: FC<Props> = ({ siteName }) => {
           displayName: user.displayName,
           accessToken: credential.accessToken,
           avatarUrl: userInfo.avatar_url,
-          idToken: idToken
+          idToken: idToken,
+          username: user.username,
         }),
       );
 
@@ -63,7 +64,8 @@ const Header: FC<Props> = ({ siteName }) => {
           displayName: undefined,
           accessToken: undefined,
           avatarUrl: undefined,
-          idToken: undefined
+          idToken: undefined,
+          username: undefined,
         }),
       );
 

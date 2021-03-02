@@ -27,6 +27,8 @@ const Footer = () => {
             displayName: undefined,
             accessToken: undefined,
             avatarUrl: undefined,
+            idToken: undefined,
+            username: undefined,
           })
         );
 

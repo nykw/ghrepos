@@ -8,6 +8,8 @@ const initialState: CookieState = {
   displayName: parseCookies().displayName,
   accessToken: parseCookies().accessToken,
   avatarUrl: parseCookies().avatarUrl,
+  idToken: parseCookies().idToken,
+  username: parseCookies().username,
 };
 
 export const cookieSlice = createSlice({
