@@ -75,10 +75,10 @@ const Header: FC<Props> = ({ siteName }) => {
     }
   };
 
-  // グローバルステートの変更をCookieに伝える
-  useEffect(() => {
-    setCookies({ displayName, accessToken, avatarUrl });
-  }, [displayName, accessToken, avatarUrl]);
+  // // グローバルステートの変更をCookieに伝える
+  // useEffect(() => {
+  //   setCookies({ displayName, accessToken, avatarUrl });
+  // }, [displayName, accessToken, avatarUrl]);
 
   return (
     <header className="py-3">
