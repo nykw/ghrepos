@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import Template from '../../components/molecules/template';
+import Template from '../../components/molecules/Template';
 import getUserInfo, { User } from '../../lib/github/userInfo';
 import getReposInfo, { Repository } from '../../lib/github/reposInfo';
 import { GetServerSideProps } from 'next';

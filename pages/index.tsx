@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import Template from '../components/molecules/template';
+import Template from '../components/molecules/Template';
 
 export default function Index() {
   return (
