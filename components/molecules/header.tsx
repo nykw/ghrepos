@@ -5,7 +5,6 @@ import getUserInfo from '../../lib/github/userInfo';
 import { useDispatch, useSelector } from 'react-redux';
 import { cookieSlice, CookieState } from '../../features/cookie';
 import { signOut } from '../../lib/github/account/signOut';
-import { setCookies } from '../../lib/cookie';
 import { useRouter } from 'next/dist/client/router';
 
 type Props = {
@@ -75,11 +74,6 @@ const Header: FC<Props> = ({ siteName }) => {
     }
   };
 
-  // グローバルステートの変更をCookieに伝える
-  useEffect(() => {
-    setCookies({ displayName, accessToken, avatarUrl });
-  }, [displayName, accessToken, avatarUrl]);
-
   return (
     <header className="py-3">
       <div className="flex items-center justify-between">
@@ -93,6 +87,12 @@ const Header: FC<Props> = ({ siteName }) => {
           {accessToken && (
             <Link href={`/users/${displayName}`}>
               <img src={avatarUrl!} className="h-10 w-10 rounded-full cursor-pointer shadow-sm" />
+            </Link>
+          )}
+
+          {accessToken && (
+            <Link href={`/users/${displayName}/log`}>
+              <button className="btn btn-white">Log</button>
             </Link>
           )}
 
