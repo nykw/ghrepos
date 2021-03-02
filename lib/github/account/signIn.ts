@@ -14,6 +14,7 @@ type Credential = {
 type Result = {
   user: User;
   credential: Credential;
+  idToken: string | undefined
 };
 
 /** GitHubアカウントを使ったサインインを行います。 */
@@ -26,10 +27,12 @@ export const signInWithGitHub = async (): Promise<Result> => {
       githubAuthProvider,
     )) as any;
 
+    const idToken = await auth.currentUser?.getIdToken(true)
+
     const { displayName, email } = user;
     const { accessToken, providerId, signInMethod } = credential;
 
-    return { user: { displayName, email }, credential: { accessToken, providerId, signInMethod } };
+    return { user: { displayName, email }, credential: { accessToken, providerId, signInMethod }, idToken };
   } catch (e) {
     // see https://firebase.google.com/docs/reference/js/firebase.auth.Auth?hl=ja#signinandretrievedatawithcredential
     switch (e.code as string) {

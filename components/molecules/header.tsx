@@ -25,7 +25,7 @@ const Header: FC<Props> = ({ siteName }) => {
 
     try {
       // Firebase Authを使ってGitHub認証を使ったサインインを行い、サインインしたユーザー情報を取得する
-      const { user, credential } = await signInWithGitHub();
+      const { user, credential, idToken } = await signInWithGitHub();
 
       // GitHubからユーザー情報を取得する
       const userInfo = await getUserInfo(user.displayName);
@@ -36,6 +36,7 @@ const Header: FC<Props> = ({ siteName }) => {
           displayName: user.displayName,
           accessToken: credential.accessToken,
           avatarUrl: userInfo.avatar_url,
+          idToken: idToken
         }),
       );
 
@@ -62,6 +63,7 @@ const Header: FC<Props> = ({ siteName }) => {
           displayName: undefined,
           accessToken: undefined,
           avatarUrl: undefined,
+          idToken: undefined
         }),
       );
 
