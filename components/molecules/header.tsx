@@ -96,6 +96,12 @@ const Header: FC<Props> = ({ siteName }) => {
             </Link>
           )}
 
+          {accessToken && (
+            <Link href={`/users/${displayName}/log`}>
+              <button className="btn btn-white">Log</button>
+            </Link>
+          )}
+
           <div>
             {accessToken ? (
               <button className="btn btn-white " onClick={signOutHandler}>
