@@ -12,7 +12,7 @@ type Props = {
 };
 
 const Header: FC<Props> = ({siteName}) => {
-  const {displayName, accessToken, avatarUrl} =
+  const {accessToken, avatarUrl, username} =
     useSelector<CookieState, CookieState>(
         (state) => state,
     );
@@ -94,7 +94,7 @@ const Header: FC<Props> = ({siteName}) => {
 
         <div className="flex w-1/7 space-x-2 mx-5">
           {accessToken && (
-            <Link href={`/users/${displayName}`}>
+            <Link href={`/users/${username}`}>
               <img
                 src={avatarUrl!}
                 className="h-10 w-10 rounded-full cursor-pointer shadow-sm"
@@ -103,7 +103,7 @@ const Header: FC<Props> = ({siteName}) => {
           )}
 
           {accessToken && (
-            <Link href={`/users/${displayName}/log`}>
+            <Link href={`/users/${username}/log`}>
               <button className="btn btn-white">Log</button>
             </Link>
           )}
