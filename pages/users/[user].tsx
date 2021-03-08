@@ -1,10 +1,11 @@
-import { FC } from 'react';
-import Template from '../../components/molecules/Template';
-import getUserInfo, { User } from '../../lib/github/userInfo';
-import getReposInfo, { Repository } from '../../lib/github/reposInfo';
-import { GetServerSideProps } from 'next';
-import Link from 'next/link';
-import Image from 'next/image';
+/* eslint-disable camelcase */
+import {FC} from "react";
+import Template from "../../components/molecules/Template";
+import getUserInfo, {User} from "../../lib/github/userInfo";
+import getReposInfo, {Repository} from "../../lib/github/reposInfo";
+import {GetServerSideProps} from "next";
+import Link from "next/link";
+import Image from "next/image";
 
 type Props = User & {
   repositories: Repository[];
@@ -12,16 +13,16 @@ type Props = User & {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
-    const { params } = context;
-    if (!params) throw new Error('`params` is undefined.');
-    const { user } = params;
-    if (!user) throw new Error('`user` is undefined.');
+    const {params} = context;
+    if (!params) throw new Error("`params` is undefined.");
+    const {user} = params;
+    if (!user) throw new Error("`user` is undefined.");
 
     // GitHub からユーザー名 `user` の情報を取得する
     const userInfo = await getUserInfo(user);
 
     // GitHubからユーザー名 `user` のリポジトリ名を取得する
-    const { login } = userInfo;
+    const {login} = userInfo;
     const repositories = await getReposInfo(login);
 
     return {
@@ -37,7 +38,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
       props: {},
       redirect: {
-        destination: '/',
+        destination: "/",
       },
     };
   }
@@ -63,6 +64,7 @@ const Page: FC<Props> = ({
           <Link href={`https://github.com/${login}`}>
             <img
               src={avatar_url}
+              // eslint-disable-next-line max-len
               className="h-48 w-48 rounded-full mx-auto cursor-pointer shadow-xl"
             />
           </Link>
@@ -70,7 +72,7 @@ const Page: FC<Props> = ({
 
         <div className="mt-7">
           <h2>名前</h2>
-          <p className="mt-1">{name ?? '???'}</p>
+          <p className="mt-1">{name ?? "???"}</p>
         </div>
 
         <div className="mt-5">
@@ -84,12 +86,12 @@ const Page: FC<Props> = ({
 
         <div className="mt-5">
           <h2>メールアドレス</h2>
-          <p className="mt-1">{email ?? '???'}</p>
+          <p className="mt-1">{email ?? "???"}</p>
         </div>
 
         <div className="mt-5">
           <h2>場所</h2>
-          <p className="mt-1">{location ?? '???'}</p>
+          <p className="mt-1">{location ?? "???"}</p>
         </div>
 
         <div className="mt-5">
@@ -100,7 +102,7 @@ const Page: FC<Props> = ({
                 <a>@{twitter_username}</a>
               </Link>
             ) : (
-              '???'
+              "???"
             )}
           </p>
         </div>
@@ -109,21 +111,24 @@ const Page: FC<Props> = ({
           <h2>リポジトリ一覧</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 p-5">
             {repositories
-              .sort((prev, curr) => (curr.stargazers_count - prev.stargazers_count >= 0 ? 1 : -1))
-              .map((repos) => {
-                const { id, full_name, name, stargazers_count } = repos;
+                .sort((prev, curr) =>
+                  (curr.stargazers_count - prev.stargazers_count >= 0 ? 1 : -1))
+                .map((repos) => {
+                  const {id, full_name, name, stargazers_count} = repos;
 
-                return (
-                  <Link key={id} href={`https://github.com/${full_name}`}>
-                    <div className="bg-white rounded-md m-2 shadow-md cursor-pointer">
-                      <p className="font-bold">{name}</p>
-                      <div className="tabular-nums mt-1">
-                        <Image src="/star.svg" width={17} height={17}></Image> {stargazers_count}
+                  return (
+                    <Link key={id} href={`https://github.com/${full_name}`}>
+                      {/* eslint-disable-next-line max-len */}
+                      <div className="bg-white rounded-md m-2 shadow-md cursor-pointer">
+                        <p className="font-bold">{name}</p>
+                        <div className="tabular-nums mt-1">
+                          <Image src="/star.svg" width={17} height={17}></Image>
+                          {stargazers_count}
+                        </div>
                       </div>
-                    </div>
-                  </Link>
-                );
-              })}
+                    </Link>
+                  );
+                })}
           </div>
         </div>
       </div>

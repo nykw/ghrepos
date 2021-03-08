@@ -1,6 +1,7 @@
-import Link from 'next/link';
-import Template from '../components/molecules/Template';
+import Link from "next/link";
+import Template from "../components/molecules/Template";
 
+// eslint-disable-next-line require-jsdoc
 export default function Index() {
   return (
     <Template pageName="GitHub Search">

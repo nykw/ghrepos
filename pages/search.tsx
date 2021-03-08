@@ -1,32 +1,35 @@
-import Template from '../components/molecules/Template';
-import Link from 'next/link';
-import { useState } from 'react';
+/* eslint-disable valid-jsdoc */
+import {ChangeEvent, KeyboardEvent, MouseEvent, useState} from "react";
+import Template from "../components/molecules/Template";
+import Link from "next/link";
 
+// eslint-disable-next-line require-jsdoc
 export default function Index() {
-  const [user, setUser] = useState(''); // 入力されたユーザー名
+  const [user, setUser] = useState(""); // 入力されたユーザー名
 
   /** 入力したユーザー名が正しい形式かを評価する。 */
   const validateUserName = (inputUserName: string): boolean =>
-    inputUserName.length > 0 && inputUserName.split('/').length === 1;
+    inputUserName.length > 0 && inputUserName.split("/").length === 1;
 
   /** ユーザー名編集のイベントハンドラー */
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setUser(e.target.value);
   };
 
   /** Enterキー入力のデフォルトの動作を抑制する */
-  const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+  const handleEnter = (e: KeyboardEvent<HTMLInputElement>): void => {
     // Enterキーが押された場合
-    if (e.code === 'Enter') {
+    if (e.code === "Enter") {
       e.preventDefault();
     }
   };
 
   /** submit ボタンを押下のイベントハンドラー */
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
+  const handleClick = (e: MouseEvent<HTMLButtonElement>): void => {
     if (!validateUserName(user)) {
       e.preventDefault();
-      alert('不正なユーザー名です。');
+      // eslint-disable-next-line no-undef
+      alert("不正なユーザー名です。");
     }
   };
 
@@ -48,7 +51,11 @@ export default function Index() {
           </div>
           <div className="mt-5">
             <Link href={`/users/${user}`}>
-              <button type="button" className="btn btn-white" onClick={handleClick}>
+              <button
+                type="button"
+                className="btn btn-white"
+                onClick={handleClick}
+              >
                 Submit
               </button>
             </Link>
