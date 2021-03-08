@@ -23,8 +23,6 @@ export const signInWithGitHub = async (): Promise<Result> => {
   try {
     const userCredential = await auth.signInWithPopup(githubAuthProvider);
 
-    console.log(userCredential);
-
     const {user, additionalUserInfo} = userCredential;
     const authCredential = userCredential.credential;
 
