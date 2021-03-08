@@ -3,9 +3,10 @@ import { auth, githubAuthProvider } from '../../auth';
 type User = {
   displayName: string;
   email?: string;
+  username: string;
 };
 
-type Credential = {
+type AuthCredential = {
   accessToken: string;
   providerId: string;
   signInMethod: string;
@@ -13,23 +14,30 @@ type Credential = {
 
 type Result = {
   user: User;
-  credential: Credential;
+  credential: AuthCredential;
+  idToken: string | undefined
 };
 
 /** GitHubアカウントを使ったサインインを行います。 */
 export const signInWithGitHub = async (): Promise<Result> => {
   try {
-    const {
-      user,
-      credential,
-    }: { user: User; credential: Credential } = (await auth.signInWithPopup(
-      githubAuthProvider,
-    )) as any;
+    const userCredential = await auth.signInWithPopup(githubAuthProvider);
 
-    const { displayName, email } = user;
-    const { accessToken, providerId, signInMethod } = credential;
+    const {user, additionalUserInfo} = userCredential;
+    const authCredential = userCredential.credential;
 
-    return { user: { displayName, email }, credential: { accessToken, providerId, signInMethod } };
+    const {username} = additionalUserInfo!
+    if (!username) throw new Error("error")
+
+    const idToken = await auth.currentUser?.getIdToken(true)
+
+    const { displayName, email } = user as any
+    const { accessToken, providerId, signInMethod } = authCredential as any
+
+    return {
+      user: {displayName, email, username},
+      credential: {accessToken, providerId, signInMethod}, idToken
+    };
   } catch (e) {
     // see https://firebase.google.com/docs/reference/js/firebase.auth.Auth?hl=ja#signinandretrievedatawithcredential
     switch (e.code as string) {

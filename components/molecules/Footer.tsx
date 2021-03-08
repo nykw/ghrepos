@@ -1,20 +1,21 @@
-import { useRouter } from "next/dist/client/router";
+import {useRouter} from "next/dist/client/router";
 import Link from "next/link";
-import { useDispatch, useSelector } from "react-redux";
-import { cookieSlice, CookieState } from "../../features/cookie";
-import { deleteAccount } from "../../lib/github/account/delete";
+import {useDispatch, useSelector} from "react-redux";
+import {cookieSlice, CookieState} from "../../features/cookie";
+import {deleteAccount} from "../../lib/github/account/delete";
 
 const Footer = () => {
-  const { accessToken } = useSelector<CookieState, CookieState>(
-    (state) => state
+  const {accessToken} = useSelector<CookieState, CookieState>(
+      (state) => state
   );
 
   const dispatch = useDispatch();
-  const { register } = cookieSlice.actions;
+  const {register} = cookieSlice.actions;
   const router = useRouter();
 
   const deleteHandler = async () => {
     try {
+      // eslint-disable-next-line no-undef
       const ok = confirm("本当に削除しますか？");
 
       if (ok) {
@@ -23,13 +24,16 @@ const Footer = () => {
 
         // Reduxにアクションを発行する
         dispatch(
-          register({
-            displayName: undefined,
-            accessToken: undefined,
-            avatarUrl: undefined,
-          })
+            register({
+              displayName: undefined,
+              accessToken: undefined,
+              avatarUrl: undefined,
+              idToken: undefined,
+              username: undefined,
+            })
         );
 
+        // eslint-disable-next-line no-undef
         alert("アカウントを削除しました。");
 
         // トップページに遷移する
@@ -37,6 +41,7 @@ const Footer = () => {
       }
     } catch (e) {
       if (e instanceof Error) {
+        // eslint-disable-next-line no-undef
         alert(e.message);
       }
     }

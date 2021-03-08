@@ -1,22 +1,23 @@
-import { FC, SyntheticEvent, useEffect } from 'react';
-import { signInWithGitHub } from '../../lib/github/account/signIn';
-import Link from 'next/link';
-import getUserInfo from '../../lib/github/userInfo';
-import { useDispatch, useSelector } from 'react-redux';
-import { cookieSlice, CookieState } from '../../features/cookie';
-import { signOut } from '../../lib/github/account/signOut';
-import { useRouter } from 'next/dist/client/router';
+import {FC, SyntheticEvent} from "react";
+import {signInWithGitHub} from "../../lib/github/account/signIn";
+import Link from "next/link";
+import getUserInfo from "../../lib/github/userInfo";
+import {useDispatch, useSelector} from "react-redux";
+import {cookieSlice, CookieState} from "../../features/cookie";
+import {signOut} from "../../lib/github/account/signOut";
+import {useRouter} from "next/dist/client/router";
 
 type Props = {
   siteName: string;
 };
 
-const Header: FC<Props> = ({ siteName }) => {
-  const { displayName, accessToken, avatarUrl } = useSelector<CookieState, CookieState>(
-    (state) => state,
-  );
+const Header: FC<Props> = ({siteName}) => {
+  const {accessToken, avatarUrl, username} =
+    useSelector<CookieState, CookieState>(
+        (state) => state,
+    );
   const dispatch = useDispatch();
-  const { register } = cookieSlice.actions;
+  const {register} = cookieSlice.actions;
   const router = useRouter();
 
   // Sign Inボタンがクリックされたときの処理
@@ -25,24 +26,27 @@ const Header: FC<Props> = ({ siteName }) => {
 
     try {
       // Firebase Authを使ってGitHub認証を使ったサインインを行い、サインインしたユーザー情報を取得する
-      const { user, credential } = await signInWithGitHub();
+      const {user, credential, idToken} = await signInWithGitHub();
 
       // GitHubからユーザー情報を取得する
-      const userInfo = await getUserInfo(user.displayName);
+      const userInfo = await getUserInfo(user.username);
 
       // Reduxにアクションを発行する
       dispatch(
-        register({
-          displayName: user.displayName,
-          accessToken: credential.accessToken,
-          avatarUrl: userInfo.avatar_url,
-        }),
+          register({
+            displayName: user.displayName,
+            accessToken: credential.accessToken,
+            avatarUrl: userInfo.avatar_url,
+            idToken: idToken,
+            username: user.username,
+          }),
       );
 
       // 検索ページに遷移する
-      router.push('/search');
+      router.push("/search");
     } catch (e) {
       if (e instanceof Error) {
+        // eslint-disable-next-line no-undef
         alert(e.message);
       }
     }
@@ -58,17 +62,20 @@ const Header: FC<Props> = ({ siteName }) => {
 
       // Reduxにアクションを発行する
       dispatch(
-        register({
-          displayName: undefined,
-          accessToken: undefined,
-          avatarUrl: undefined,
-        }),
+          register({
+            displayName: undefined,
+            accessToken: undefined,
+            avatarUrl: undefined,
+            idToken: undefined,
+            username: undefined,
+          }),
       );
 
       // トップページに遷移する
-      router.push('/');
+      router.push("/");
     } catch (e) {
       if (e instanceof Error) {
+        // eslint-disable-next-line no-undef
         alert(e.message);
       }
     }
@@ -79,19 +86,24 @@ const Header: FC<Props> = ({ siteName }) => {
       <div className="flex items-center justify-between">
         <div className="p-5">
           <Link href="/">
-            <button className="font-bold text-4xl select-none">{siteName}</button>
+            <button className="font-bold text-4xl select-none">
+              {siteName}
+            </button>
           </Link>
         </div>
 
         <div className="flex w-1/7 space-x-2 mx-5">
           {accessToken && (
-            <Link href={`/users/${displayName}`}>
-              <img src={avatarUrl!} className="h-10 w-10 rounded-full cursor-pointer shadow-sm" />
+            <Link href={`/users/${username}`}>
+              <img
+                src={avatarUrl!}
+                className="h-10 w-10 rounded-full cursor-pointer shadow-sm"
+              />
             </Link>
           )}
 
           {accessToken && (
-            <Link href={`/users/${displayName}/log`}>
+            <Link href={`/users/${username}/log`}>
               <button className="btn btn-white">Log</button>
             </Link>
           )}
