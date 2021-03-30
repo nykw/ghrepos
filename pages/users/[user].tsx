@@ -3,7 +3,7 @@ import {FC} from "react";
 import Template from "../../components/molecules/Template";
 import getUserInfo, {User} from "../../lib/github/userInfo";
 import getReposInfo, {Repository} from "../../lib/github/reposInfo";
-import {GetServerSideProps} from "next";
+import {GetStaticPaths, GetStaticProps} from "next";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -11,7 +11,14 @@ type Props = User & {
   repositories: Repository[];
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: true,
+  };
+};
+
+export const getStaticProps: GetStaticProps = async (context) => {
   try {
     const {params} = context;
     if (!params) throw new Error("`params` is undefined.");
@@ -53,7 +60,7 @@ const Page: FC<Props> = ({
   location,
   twitter_username,
   avatar_url,
-  repositories,
+  repositories = [],
 }) => {
   return (
     <Template pageName={`${login}'s Profile`}>
@@ -110,7 +117,7 @@ const Page: FC<Props> = ({
         <div className="mt-5 mx-auto">
           <h2>リポジトリ一覧</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 p-5">
-            {repositories
+            {[...repositories]
                 .sort((prev, curr) =>
                   (curr.stargazers_count - prev.stargazers_count >= 0 ? 1 : -1))
                 .map((repos) => {
