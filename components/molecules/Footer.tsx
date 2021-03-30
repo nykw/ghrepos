@@ -1,16 +1,16 @@
-import {useRouter} from "next/dist/client/router";
+import { useRouter } from "next/dist/client/router";
 import Link from "next/link";
-import {useDispatch, useSelector} from "react-redux";
-import {cookieSlice, CookieState} from "../../features/cookie";
-import {deleteAccount} from "../../lib/github/account/delete";
+import { useDispatch, useSelector } from "react-redux";
+import { cookieSlice, CookieState } from "../../features/cookie";
+import { deleteAccount } from "../../lib/github/account/delete";
 
 const Footer = () => {
-  const {accessToken} = useSelector<CookieState, CookieState>(
-      (state) => state
+  const { displayName } = useSelector<CookieState, CookieState>(
+    (state) => state
   );
 
   const dispatch = useDispatch();
-  const {register} = cookieSlice.actions;
+  const { register } = cookieSlice.actions;
   const router = useRouter();
 
   const deleteHandler = async () => {
@@ -24,13 +24,11 @@ const Footer = () => {
 
         // Reduxにアクションを発行する
         dispatch(
-            register({
-              displayName: undefined,
-              accessToken: undefined,
-              avatarUrl: undefined,
-              idToken: undefined,
-              username: undefined,
-            })
+          register({
+            displayName: undefined,
+            avatarUrl: undefined,
+            username: undefined,
+          })
         );
 
         // eslint-disable-next-line no-undef
@@ -57,7 +55,7 @@ const Footer = () => {
           </Link>
           .
         </div>
-        {accessToken && (
+        {displayName && (
           <button className="btn btn-white mt-2" onClick={deleteHandler}>
             アカウントを削除する
           </button>
