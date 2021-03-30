@@ -1,23 +1,23 @@
-import { FC, SyntheticEvent } from "react";
-import { signInWithGitHub } from "../../lib/github/account/signIn";
+import {FC, SyntheticEvent} from "react";
+import {signInWithGitHub} from "../../lib/github/account/signIn";
 import Link from "next/link";
 import getUserInfo from "../../lib/github/userInfo";
-import { useDispatch, useSelector } from "react-redux";
-import { cookieSlice, CookieState } from "../../features/cookie";
-import { signOut } from "../../lib/github/account/signOut";
-import { useRouter } from "next/dist/client/router";
+import {useDispatch, useSelector} from "react-redux";
+import {cookieSlice, CookieState} from "../../features/cookie";
+import {signOut} from "../../lib/github/account/signOut";
+import {useRouter} from "next/dist/client/router";
 
 type Props = {
   siteName: string;
 };
 
-const Header: FC<Props> = ({ siteName }) => {
-  const { avatarUrl, username, displayName } = useSelector<
+const Header: FC<Props> = ({siteName}) => {
+  const {avatarUrl, username, displayName} = useSelector<
     CookieState,
     CookieState
   >((state) => state);
   const dispatch = useDispatch();
-  const { register } = cookieSlice.actions;
+  const {register} = cookieSlice.actions;
   const router = useRouter();
 
   // Sign Inボタンがクリックされたときの処理
@@ -26,18 +26,18 @@ const Header: FC<Props> = ({ siteName }) => {
 
     try {
       // Firebase Authを使ってGitHub認証を使ったサインインを行い、サインインしたユーザー情報を取得する
-      const { user, credential } = await signInWithGitHub();
+      const {user} = await signInWithGitHub();
 
       // GitHubからユーザー情報を取得する
       const userInfo = await getUserInfo(user.username);
 
       // Reduxにアクションを発行する
       dispatch(
-        register({
-          displayName: user.displayName,
-          avatarUrl: userInfo.avatar_url,
-          username: user.username,
-        })
+          register({
+            displayName: user.displayName,
+            avatarUrl: userInfo.avatar_url,
+            username: user.username,
+          })
       );
 
       // 検索ページに遷移する
@@ -60,11 +60,11 @@ const Header: FC<Props> = ({ siteName }) => {
 
       // Reduxにアクションを発行する
       dispatch(
-        register({
-          displayName: undefined,
-          avatarUrl: undefined,
-          username: undefined,
-        })
+          register({
+            displayName: undefined,
+            avatarUrl: undefined,
+            username: undefined,
+          })
       );
 
       // トップページに遷移する
