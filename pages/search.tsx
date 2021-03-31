@@ -50,7 +50,7 @@ export default function Index() {
             />
           </div>
           <div className="mt-5">
-            <Link href={`/users/${user}`}>
+            <Link href="/users/[user]" as={`/users/${user}`} >
               <button
                 type="button"
                 className="btn btn-white"
