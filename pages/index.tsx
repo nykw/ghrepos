@@ -11,7 +11,7 @@ export default function Index() {
           入力したユーザー名のGitHubユーザー情報を表示します。
         </p>
         <div className="mt-5 text-center">
-          <Link href="/search">
+          <Link href="/search" as="/search">
             <button className="btn btn-white">Search</button>
           </Link>
         </div>

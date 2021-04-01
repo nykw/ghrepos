@@ -81,7 +81,7 @@ const Header: FC<Props> = ({siteName}) => {
     <header className="py-3">
       <div className="flex items-center justify-between">
         <div className="p-5">
-          <Link href="/">
+          <Link href="/" as="/">
             <button className="font-bold text-4xl select-none">
               {siteName}
             </button>
@@ -90,7 +90,7 @@ const Header: FC<Props> = ({siteName}) => {
 
         <div className="flex w-1/7 space-x-2 mx-5">
           {displayName && (
-            <Link href={`/users/${username}`}>
+            <Link href="/users/[user]" as={`/users/${username}`}>
               <img
                 src={avatarUrl!}
                 className="h-10 w-10 rounded-full cursor-pointer shadow-sm"
@@ -99,7 +99,7 @@ const Header: FC<Props> = ({siteName}) => {
           )}
 
           {displayName && (
-            <Link href={`/users/${username}/log`}>
+            <Link href="/users/[user]/log" as={`/users/${username}/log`}>
               <button className="btn btn-white">Log</button>
             </Link>
           )}

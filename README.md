@@ -13,7 +13,10 @@ Next.js と Tailwind CSS、Firebase Authentication (以下、 Firebase Auth) に
   GitHub OAuth を利用するには Firebase Auth 以外にも候補がありました。
   Firebase Auth の場合は秘密鍵の管理を Firebase コンソール上で行えるため、認証・認可に対する私の理解の甘さもあり、こちらを採用することにしました。
 
-  また、Next.js はルーティングごとに、サーバーから新しい HTML を取得します。
+  ~~また、Next.js はルーティングごとに、サーバーから新しい HTML を取得します。~~
+
+  (追記：`<Link>` を用いたルーティングではページ形成に必要なpropsがjson形式でサーバーから送られて来るだけなのでこの表現は誤りです。)
+
   そのためルーティングの前後でグローバル状態を共有するために、工夫する必要があります。
   今回はログイン状態を管理しながらインタラクティブな UI を実現するために、 Redux の store と Cookie を同期させるようにしました。
 

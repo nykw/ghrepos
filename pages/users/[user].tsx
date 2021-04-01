@@ -4,7 +4,6 @@ import Template from "../../components/molecules/Template";
 import getUserInfo, {User} from "../../lib/github/userInfo";
 import getReposInfo, {Repository} from "../../lib/github/reposInfo";
 import {GetStaticPaths, GetStaticProps} from "next";
-import Link from "next/link";
 import Image from "next/image";
 
 type Props = User & {
@@ -68,13 +67,13 @@ const Page: FC<Props> = ({
         <h1 className="mt-5">{login}</h1>
 
         <div className="mt-5">
-          <Link href={`https://github.com/${login}`}>
+          <a href={`https://github.com/${login}`}>
             <img
               src={avatar_url}
               // eslint-disable-next-line max-len
               className="h-48 w-48 rounded-full mx-auto cursor-pointer shadow-xl"
             />
-          </Link>
+          </a>
         </div>
 
         <div className="mt-7">
@@ -105,9 +104,7 @@ const Page: FC<Props> = ({
           <h2>twitter</h2>
           <p className="mt-1">
             {twitter_username ? (
-              <Link href={`https://twitter.com/${twitter_username}`}>
-                <a>@{twitter_username}</a>
-              </Link>
+              <a href={`https://twitter.com/${twitter_username}`}>@{twitter_username}</a>
             ) : (
               "???"
             )}
@@ -124,7 +121,7 @@ const Page: FC<Props> = ({
                   const {id, full_name, name, stargazers_count} = repos;
 
                   return (
-                    <Link key={id} href={`https://github.com/${full_name}`}>
+                    <a key={id} href={`https://github.com/${full_name}`}>
                       {/* eslint-disable-next-line max-len */}
                       <div className="bg-white rounded-md m-2 shadow-md cursor-pointer">
                         <p className="font-bold">{name}</p>
@@ -133,7 +130,7 @@ const Page: FC<Props> = ({
                           {stargazers_count}
                         </div>
                       </div>
-                    </Link>
+                    </a>
                   );
                 })}
           </div>
